@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/reddit_media"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <include
+        android:id="@+id/reddit_image_layout"
+        layout="@layout/media_image_layout"/>
+    <include
+        android:id="@+id/secondary_reddit_image_layout"
+        layout="@layout/media_image_layout"
+        android:visibility="gone"/>
+    <include
+        android:id="@+id/reddit_web_layout"
+        layout="@layout/media_web_layout"/>
+    <include
+        android:id="@+id/reddit_video_layout"
+        layout="@layout/media_video_layout"/>
+    <include
+        android:id="@+id/reddit_description_layout"
+        layout="@layout/media_description_layout"/>
+    <include
+        tools:visibility="gone"
+        android:id="@+id/reddit_link_layout"
+        layout="@layout/media_link_layout"/>
+    <include
+        tools:visibility="visible"
+        android:id="@+id/reddit_custom_player"
+        layout="@layout/media_custom_player"/>
+    <include
+        tools:visibility="gone"
+        android:id="@+id/gallery_layout"
+        layout="@layout/media_gallery_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/reddit_image_layout"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

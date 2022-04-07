@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/reddit_link_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:textColor="@color/post_title"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/reddit_link_preview"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="{link_description}" />
+
+    <ImageView
+        android:id="@+id/reddit_link_preview"
+        android:layout_width="105dp"
+        android:layout_height="75dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+    <TextView
+        android:id="@+id/reddit_link_src"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent_black"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/reddit_link_preview"
+        app:layout_constraintEnd_toEndOf="@+id/reddit_link_preview"
+        app:layout_constraintStart_toStartOf="@+id/reddit_link_preview"
+        tools:text="{link_src}" />
+</androidx.constraintlayout.widget.ConstraintLayout>

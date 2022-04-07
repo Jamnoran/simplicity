@@ -1,0 +1,2 @@
+rootProject.name = "Simplicity a client for reddit"
+include ':app'

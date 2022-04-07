@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="post_title">#FFFFFFFF</color>
+    <color name="post_content">#FFFFFFFF</color>
+    <color name="post_background">#F2353434</color>
+    <color name="comment_background">#F2535353</color>
+    <color name="comment_line">#F2AAAAAA</color>
+    <color name="comment_author">#7E9DD1</color>
+    <color name="comment_body">#FFFFFFFF</color>
+    <color name="background">#FF000000</color>
+    <color name="sub_color">#7E9DD1</color>
+    <color name="post_vote_active_color">#FF018786</color>
+    <color name="post_vote_de_active_color">#777777</color>
+    <color name="post_comment_counter">#FF838383</color>
+    <color name="post_vote_counter">#FF838383</color>
+
+    <color name="primary_background">#F2353434</color>
+    <color name="primary_tint_color">#FF838383</color>
+    <color name="primary_text_color">#FF838383</color>
+    <color name="secondary_text_color">#FF000000</color>
+
+    <color name="white_alpha">#92FFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="transparent_black">#9A000000</color>
+</resources>

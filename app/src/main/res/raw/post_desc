@@ -1,0 +1,619 @@
+{
+  "kind": "t3",
+  "data": {
+    "approved_at_utc": null,
+    "subreddit": "TwoXChromosomes",
+    "selftext": "`18-Nov-2011`: Updated to include the [latest markdown changes.](http://www.reddit.com/r/changelog/comments/mg1j6/reddit_change_new_markdown_interpreter/)\n\n####Contents\n\n&gt;1. Basic text formatting (*Italics*, **Bold**, ~~Strikethrough~~, Super^script, `inline code`, Quoting)\n2. Linking\n3. Line Breaks &amp; Paragraphs\n4. Lists\n5. Tables\n6. Block Code\n7. Headlines and Horizontals\n\n####1\\. Basic Text Formatting\n\n\n&gt; **Italics** are created using either a single asterisk (\\*) or single underscore (\\_).\n\n&gt;Example:\n\n&gt;&gt;This is \\*italic text\\*, this is also \\_italic text\\_.\n\n&gt;becomes:\n\n&gt;&gt;This is *italic text*, this is also _italic text_.\n\n#\n\n&gt;**Bold text** is created with double asterisks (\\*\\*) or double underscores (\\_\\_).\n\n&gt;Example:\n\n&gt;&gt;This is \\*\\*bold text\\*\\*, this is also \\_\\_bold text\\_\\_.\n\n&gt;becomes:\n\n&gt;&gt;This is **bold text**, this is also __bold text__.\n\n#\n\n&gt;**Strikethrough text** is created using a double tilde (`~~`).\n\n&gt;Example:\n\n&gt;&gt;This is `~~`strikethrough text`~~`.\n\n&gt;becomes:\n\n&gt;&gt;This is ~~strikethrough~~ text.\n\n#\n\n&gt;**Superscript text** is created using the carot (`^`). \n\n&gt;Example:\n\n&gt;&gt; This sentence contains super`^`script.\n\n&gt;becomes:\n\n&gt;&gt; This sentence contains super^script.    \n    \n&gt;Note that you cannot leave space before the carot, and there is no *closing tag*.     \n\n&gt;&gt;Superscript can also be stacked^like^this.\n\n#\n\n&gt;**inline code** (monospaced text) is created using the backtick ([grave accents](http://en.wikipedia.org/wiki/Grave_accent)) (\\`).\n\n&gt;Example:\n\n&gt;&gt; This sentence contains inline code: `` ` ``javascript:alert(\"hello world\");`` ` ``\n\n&gt;becomes:\n\n&gt;&gt; This sentence contains inline code: `javascript:alert(\"hello world\");`\n\n#\n\n&gt;**Quoting** is achieved by starting a line with an Angle Bracket (&gt;)\n\n&gt;Example:\n\n&gt;&gt;\\&gt;Here's a quote.\n\n&gt;&gt;\\&gt;Another paragraph in the same quote.    \n&gt;&gt;\\&gt;\\&gt;A nested quote.    \n\n&gt;&gt;\\&gt;Back to a single quote.\n\n&gt;&gt;And finally some unquoted text.\n\n&gt;becomes:\n\n&gt;&gt;&gt;Here's a quote.\n    \n&gt;&gt;&gt;Another paragraph in the same quote.\n&gt;&gt;&gt;&gt;A nested quote.    \n\n&gt;&gt;&gt;Back to a single quote.\n\n&gt;&gt;And finally some unquoted text.\n\n#\n\n&gt;To **remove formatting** you will need to use a Backslash (\\\\)\n\n&gt;Example:\n\n&gt;&gt;This sentence escapes \\\\\\*italic text\\\\\\* and \\\\\\*\\\\\\*bold text\\\\\\*\\\\\\*.\n\n&gt;becomes:\n\n&gt;&gt;This sentence escapes \\*italic text\\* and \\*\\*bold text\\*\\*. \n\n####2\\. Linking\n\n&gt;**Creating a link**\n\n&gt;Example:\n\n&gt;&gt; \\[Reddit\\]\\(`http://reddit.com`\\)\n\n&gt;becomes:\n\n&gt;&gt; [Reddit](http://reddit.com)   \n\n&gt;You cannot begin a link with \"www\", it must begin with one of the following URL schemes:\n\n&gt;&gt;* http://\n* https://\n* ftp://\n* mailto:\n* steam://\n* irc://\n* news://\n* mumble://\n* ssh:// \n    \n#\n\n&gt;You can also provide **title text** for links:\n\n&gt;&gt; \\[Reddit\\]\\(`http://reddit.com` \"what's new online!\"\\).\n\n&gt;becomes:\n\n&gt;&gt; [Reddit](http://reddit.com \"what's new online!\") ← (*hover*!)    \n    \n&gt;Title text can be used to hide **spoilers**:\n\n&gt;&gt; `[spoiler](/s\"The spoiler text goes here\")`\n\n&gt;becomes:\n\n&gt;&gt; [spoiler](/s\"The spoiler text goes here\") ← (*hover*!)\n\n#\n\n&gt;Reddit now recognises when you want to **link to a subreddit**.\n\n&gt;Example:\n\n&gt;&gt;This is a shameless plug for \/r/BritishTV!\n\n&gt;becomes:\n\n&gt;&gt;This is a shameless plug for /r/BritishTV!\n\n#\n\n&gt;If a URL contains brackets you will need to escape these.\n\n&gt;Example without escaping:\n\n&gt;&gt;`[Cube](http://en.wikipedia.org/wiki/Cube_(film))`\n\n&gt;becomes:\n\n&gt;&gt;[Cube](http://en.wikipedia.org/wiki/Cube_(film)) ← (*note the surplus bracket*!)    \n    \n&gt;Example with escaping:\n\n&gt;&gt;`[Cube](http://en.wikipedia.org/wiki/Cube_(film\\))`\n\n&gt;becomes:\n\n&gt;&gt;[Cube](http://en.wikipedia.org/wiki/Cube_(film\\)) ← (*no surplus bracket*!)    \n    \n####3\\. Line Breaks &amp; Paragraphs\n\n&gt;**Line breaks** in comments are achieved by adding four spaces (*shown using* ░) to the end of the line. Simply hitting return (*shown using* ↵) will not work.\n\n&gt;Example:\n\n&gt;&gt;First line↵    \n&gt;&gt;Second line\n\n&gt;becomes:\n\n&gt;&gt;First line Second line\n\n&gt;but:\n\n&gt;&gt;First line░░░░↵    \n&gt;&gt;Second line\n\n&gt;becomes:\n\n&gt;&gt;First line    \n&gt;&gt;Second line\n\n#\n\n&gt;**Paragraphs** are formed when you hit return (*shown using* ↵) twice.\n\n&gt;&gt;First Paragraph↵    \n&gt;&gt;↵    \n&gt;&gt;Second Paragraph\n\n&gt;becomes:\n\n&gt;&gt;First Paragraph\n\n&gt;&gt;Second Paragraph\n\n####4\\. Lists\n\n&gt;To create **Unordered Lists** each item should begin with either an asterisk (\\*), plus sign (\\+) or minus sign (\\-).\n\n&gt;Example:\n\n&gt;&gt;\\* Item 1    \n&gt;&gt;\\+ Item 2    \n&gt;&gt;\\- Item 3     \n\n&gt;becomes:\n\n&gt;&gt;* Item 1\n&gt;&gt;+ Item 2\n&gt;&gt;- Item 3\n\n#\n\n&gt;**Ordered Lists** are created with a number and period. It doesn't matter which number you start with, as markdown will always start with 1.\n\n&gt;Example:\n\n&gt;&gt;3\\. Item 1    \n&gt;&gt;2\\. Item 2    \n&gt;&gt;1\\. Item 3\n\n&gt;becomes:\n\n&gt;&gt;3. Item 1\n&gt;&gt;2. Item 2\n&gt;&gt;1. Item 3\n\n#\n\n&gt;The markup for **Nested Lists** has changed slightly:\n\n&gt;Example:\n\n&gt;&gt;1\\. This is Item 1    \n&gt;&gt;2\\.    \n&gt;&gt;░░░░1\\. This is Item 2.1    \n&gt;&gt;░░░░2\\. This is Item 2.2    \n&gt;&gt;3\\. This is Item 3    \n&gt;&gt;4\\. This is Item 4\n\n&gt;becomes:\n\n&gt;&gt;1. This is Item 1\n&gt;&gt;2. \n&gt;&gt;    1. This is Item 2.1\n&gt;&gt;    2. This is Item 2.2\n&gt;&gt;3. This is Item 3\n&gt;&gt;4. This is Item 4\n\n#\n\n&gt;Lists should be clear of any text in the line immediately above and below, the same as making a new paragraph:\n\n&gt;&gt;This is the **wrong way to make a list**    \n&gt;&gt;1. lorem    \n&gt;&gt;2. ispum    \n&gt;&gt;reddit doesn't realize it should listify...    \n\n&gt;becomes:\n\n&gt;&gt;This is the **wrong way to make a list**\n&gt;&gt;1. lorem\n&gt;&gt;2. ispum\n&gt;&gt;reddit doesn't realize it should listify...    \n\n&gt;Place lists in their own paragraph: \n\n&gt;&gt;This is the **correct way to make a list**    \n\n&gt;&gt;1. lorem    \n&gt;&gt;2. ispum    \n\n&gt;&gt;reddit realizes it should listify!  \n\n&gt;**Paragraphs in Lists** and **Nested lists using a combination of ordered and unordered lists**, are no longer supported.\n\n####5\\. Tables\n\n&gt;**Tables** are created using pipes (|):\n\n&gt;Example\n\n&gt;&gt;\n[](ftp://grrr.net)Left align | Center align | Right align     \n[](ftp://grrr.net):--|:--:|--:    \nThis | This | This     \ncolumn | column | column     \nwill | will | will     \nbe | be |  be     \nleft |  center | right     \naligned | aligned   | aligned     \n\n&gt;becomes:\n\n&gt;&gt;\n Left align | Center align | Right align \n:--|:--:|--:\n This       |     This     |        This \n column     |    column    |      column \n will       |     will     |        will \n be         |      be      |          be \n left       |    center    |       right \n aligned    |    aligned   |     aligned \n\n&gt;Note that by default the first row is always **bolded**.\n\n&gt;**Column Alignment** is determined by the second row.\n\n&gt;&gt;Use \"**:--:**\" for centre aligned text, \"**--:**\" for right, and \"**:--**\" for left.\n\n&gt; You can also leave the top row empty, as long as you have the correct amount of pipes:\n\n&gt;&gt;\n[](ftp://grr.net)||    \n[](ftp://grrr.net):--|:--:|--:    \nthe|top|row    \nis|now|empty    \n\n&gt;becomes\n\n&gt;&gt;\n  |  |  \n:--|:--:|--:\nthe|top|row\nis|now|empty\n\n####6\\. Block code\n\n&gt;Displaying **block code**, without formatting and in monospaced font, is as simple as starting the line with four spaces (*shown using* ░).\n\n&gt;Example:\n\n&gt;&gt;░░░░line of code    \n&gt;&gt;░░░░░░░░line of code    \n&gt;&gt;░░░░░░░░░░░░line of code   \n&gt;&gt;░░░░░░░░line of code   \n&gt;&gt;░░░░line of code  \n\n&gt;becomes:\n\n&gt;&gt;` line of code`    \n&gt;&gt;` line of code`    \n&gt;&gt;` line of code`    \n&gt;&gt;` line of code`    \n&gt;&gt;` line of code`    \n\n####7\\. Headlines &amp; Horizonal Rules\n\n&gt;**Headline text** can be created by using a number of hashes (#) corresponding to the tag you want. Headline tags will format all text until it encounters a Line Break or new Paragraph.\n\n&gt;&gt;\\# Headline 1    \n&gt;&gt;\\#\\# Headline 2    \n&gt;&gt;\\#\\#\\# Headline 3\n\n&gt;becomes:\n\n&gt;&gt;#Headline 1    \n&gt;&gt;##Headline 2    \n&gt;&gt;###Headline 3\n\n&gt;`NOTE`: Markdown supports up to six headline tags, but only the first three have default formatting.\n\n#\n\n&gt;To create a **Horizontal Rule**, simply add three asterisks (\\*) to an empty line.\n\n&gt;&gt;\\*\\*\\*\n\n&gt;becomes:\n\n&gt;&gt;***\n\n####And Finally...\n\n&gt; I hope you find this useful. If you want to say thanks, you can always [buy me a coffee](https://www.buymeacoffee.com/raerth) and I'll love you longtime.",
+    "author_fullname": "t2_9nspak8w",
+    "saved": false,
+    "mod_reason_title": null,
+    "gilded": 1,
+    "clicked": false,
+    "title": "A creepy man was following me and I used a tip I read on here. It worked!",
+    "link_flair_richtext": [],
+    "subreddit_name_prefixed": "r/TwoXChromosomes",
+    "hidden": false,
+    "pwls": 6,
+    "link_flair_css_class": "allstatus",
+    "downs": 0,
+    "thumbnail_height": null,
+    "top_awarded_type": null,
+    "hide_score": false,
+    "name": "t3_shim3y",
+    "quarantine": false,
+    "link_flair_text_color": "dark",
+    "upvote_ratio": 0.94,
+    "author_flair_background_color": null,
+    "subreddit_type": "public",
+    "ups": 13506,
+    "total_awards_received": 29,
+    "media_embed": {},
+    "thumbnail_width": null,
+    "author_flair_template_id": null,
+    "is_original_content": false,
+    "user_reports": [],
+    "secure_media": null,
+    "is_reddit_media_domain": false,
+    "is_meta": false,
+    "category": null,
+    "secure_media_embed": {},
+    "link_flair_text": "/r/all",
+    "can_mod_post": false,
+    "score": 13506,
+    "approved_by": null,
+    "is_created_from_ads_ui": false,
+    "author_premium": true,
+    "thumbnail": "self",
+    "edited": 1643696163.0,
+    "author_flair_css_class": null,
+    "author_flair_richtext": [],
+    "gildings": {
+      "gid_1": 6,
+      "gid_2": 1
+    },
+    "content_categories": null,
+    "is_self": true,
+    "mod_note": null,
+    "created": 1643679830.0,
+    "link_flair_type": "text",
+    "wls": 6,
+    "removed_by_category": null,
+    "banned_by": null,
+    "author_flair_type": "text",
+    "domain": "self.TwoXChromosomes",
+    "allow_live_comments": true,
+    "selftext_html": "&lt;!-- SC_OFF --&gt;&lt;div class=\"md\"&gt;&lt;p&gt;The other day I had to shop at the sketchy grocery store. I usually don&amp;#39;t go there but I was desperate for some hard to find ingredients. &lt;/p&gt;\n\n&lt;p&gt;When I was walking down an aisle I noticed out of the corner of my eye this guy walking behind me. I didn&amp;#39;t think much of it, that&amp;#39;s how grocery stores work, and thought maybe he was just walking to another aisle or something ( he clearly wasn&amp;#39;t shopping that aisle).&lt;/p&gt;\n\n&lt;p&gt;But then he followed me down through the next two aisles. It was clear at that point he was following me and not shopping. He was staying at the same distance even though I sped up. &lt;/p&gt;\n\n&lt;p&gt;I remembered reading on a tip on reddit to stare down people who are following you, because they will back off  usually. I always thought that was kind of silly, but I thought what the heck. &lt;/p&gt;\n\n&lt;p&gt;I stopped abruptly and whipped around and stared this dude down. He quickly turned around and left. &lt;/p&gt;\n\n&lt;p&gt;Anyways I hope this trick helps someone else out there because it worked for me!  Never knew I&amp;#39;d have to use it. &lt;/p&gt;\n\n&lt;p&gt;Also: I&amp;#39;m not generally a paranoid person at all. Pretty comfortable most times in public, but the vibes from this guy were really off.&lt;/p&gt;\n\n&lt;p&gt;Edit: to those being unnecessarily skeptical. He was Def following me. That&amp;#39;s why I checked by walking into multiple aisles and I was going fast too. Also if me turning around had just scared him, his reaction wouldn&amp;#39;t have been as weird as it was. Either way, better be safe than sorry.&lt;/p&gt;\n&lt;/div&gt;&lt;!-- SC_ON --&gt;",
+    "likes": null,
+    "suggested_sort": null,
+    "banned_at_utc": null,
+    "view_count": null,
+    "archived": false,
+    "no_follow": false,
+    "is_crosspostable": false,
+    "pinned": false,
+    "over_18": false,
+    "all_awardings": [
+      {
+        "giver_coin_reward": 0,
+        "subreddit_id": null,
+        "is_new": false,
+        "days_of_drip_extension": 0,
+        "coin_price": 100,
+        "id": "award_19860e30-3331-4bac-b3d1-bd28de0c7974",
+        "penny_donate": 0,
+        "award_sub_type": "GLOBAL",
+        "coin_reward": 0,
+        "icon_url": "https://i.redd.it/award_images/t5_22cerq/v1mxw8i6wnf51_Heartwarming.png",
+        "days_of_premium": 0,
+        "tiers_by_required_awardings": null,
+        "resized_icons": [
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/v1mxw8i6wnf51_Heartwarming.png?width=16&amp;height=16&amp;auto=webp&amp;s=4e50438bd2d72ae5398e839ac2bdcccf323fca79",
+            "width": 16,
+            "height": 16
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/v1mxw8i6wnf51_Heartwarming.png?width=32&amp;height=32&amp;auto=webp&amp;s=e730f68de038499700c6301470812c29ef6a8555",
+            "width": 32,
+            "height": 32
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/v1mxw8i6wnf51_Heartwarming.png?width=48&amp;height=48&amp;auto=webp&amp;s=8d7c7fa22e6ff3b1b0a347839e42f493eb5f6cbc",
+            "width": 48,
+            "height": 48
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/v1mxw8i6wnf51_Heartwarming.png?width=64&amp;height=64&amp;auto=webp&amp;s=11ec2a72e2724017bb8479639edce8a7f2ba64f4",
+            "width": 64,
+            "height": 64
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/v1mxw8i6wnf51_Heartwarming.png?width=128&amp;height=128&amp;auto=webp&amp;s=1e936ae571e89abb5a5aaa2efd2d7cfb0ed1b537",
+            "width": 128,
+            "height": 128
+          }
+        ],
+        "icon_width": 2048,
+        "static_icon_width": 2048,
+        "start_date": null,
+        "is_enabled": true,
+        "awardings_required_to_grant_benefits": null,
+        "description": "I needed this today",
+        "end_date": null,
+        "subreddit_coin_reward": 0,
+        "count": 1,
+        "static_icon_height": 2048,
+        "name": "Heartwarming",
+        "resized_static_icons": [
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/v1mxw8i6wnf51_Heartwarming.png?width=16&amp;height=16&amp;auto=webp&amp;s=4e50438bd2d72ae5398e839ac2bdcccf323fca79",
+            "width": 16,
+            "height": 16
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/v1mxw8i6wnf51_Heartwarming.png?width=32&amp;height=32&amp;auto=webp&amp;s=e730f68de038499700c6301470812c29ef6a8555",
+            "width": 32,
+            "height": 32
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/v1mxw8i6wnf51_Heartwarming.png?width=48&amp;height=48&amp;auto=webp&amp;s=8d7c7fa22e6ff3b1b0a347839e42f493eb5f6cbc",
+            "width": 48,
+            "height": 48
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/v1mxw8i6wnf51_Heartwarming.png?width=64&amp;height=64&amp;auto=webp&amp;s=11ec2a72e2724017bb8479639edce8a7f2ba64f4",
+            "width": 64,
+            "height": 64
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/v1mxw8i6wnf51_Heartwarming.png?width=128&amp;height=128&amp;auto=webp&amp;s=1e936ae571e89abb5a5aaa2efd2d7cfb0ed1b537",
+            "width": 128,
+            "height": 128
+          }
+        ],
+        "icon_format": "PNG",
+        "icon_height": 2048,
+        "penny_price": 0,
+        "award_type": "global",
+        "static_icon_url": "https://i.redd.it/award_images/t5_22cerq/v1mxw8i6wnf51_Heartwarming.png"
+      },
+      {
+        "giver_coin_reward": null,
+        "subreddit_id": null,
+        "is_new": false,
+        "days_of_drip_extension": 0,
+        "coin_price": 500,
+        "id": "award_2ae56630-cfe0-424e-b810-4945b9145358",
+        "penny_donate": null,
+        "award_sub_type": "GLOBAL",
+        "coin_reward": 100,
+        "icon_url": "https://www.redditstatic.com/gold/awards/icon/Animated_Helpful_512.png",
+        "days_of_premium": 0,
+        "tiers_by_required_awardings": null,
+        "resized_icons": [
+          {
+            "url": "https://www.redditstatic.com/gold/awards/icon/Animated_Helpful_16.png",
+            "width": 16,
+            "height": 16
+          },
+          {
+            "url": "https://www.redditstatic.com/gold/awards/icon/Animated_Helpful_32.png",
+            "width": 32,
+            "height": 32
+          },
+          {
+            "url": "https://www.redditstatic.com/gold/awards/icon/Animated_Helpful_48.png",
+            "width": 48,
+            "height": 48
+          },
+          {
+            "url": "https://www.redditstatic.com/gold/awards/icon/Animated_Helpful_64.png",
+            "width": 64,
+            "height": 64
+          },
+          {
+            "url": "https://www.redditstatic.com/gold/awards/icon/Animated_Helpful_128.png",
+            "width": 128,
+            "height": 128
+          }
+        ],
+        "icon_width": 2048,
+        "static_icon_width": 2048,
+        "start_date": null,
+        "is_enabled": true,
+        "awardings_required_to_grant_benefits": null,
+        "description": "Thank you stranger. Gives %{coin_symbol}100 Coins to both the author and the community.",
+        "end_date": null,
+        "subreddit_coin_reward": 100,
+        "count": 1,
+        "static_icon_height": 2048,
+        "name": "Helpful (Pro)",
+        "resized_static_icons": [
+          {
+            "url": "https://preview.redd.it/award_images/t5_q0gj4/zkc9cw88c8361_ChristmasHelpful.png?width=16&amp;height=16&amp;auto=webp&amp;s=57278b329d19fd1d345888bfff68a51528777538",
+            "width": 16,
+            "height": 16
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_q0gj4/zkc9cw88c8361_ChristmasHelpful.png?width=32&amp;height=32&amp;auto=webp&amp;s=db7b3f20402a8a6820a4ffebf35160d2557986e2",
+            "width": 32,
+            "height": 32
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_q0gj4/zkc9cw88c8361_ChristmasHelpful.png?width=48&amp;height=48&amp;auto=webp&amp;s=0100d8da8f4dae0dc81d430733aa622d752c268c",
+            "width": 48,
+            "height": 48
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_q0gj4/zkc9cw88c8361_ChristmasHelpful.png?width=64&amp;height=64&amp;auto=webp&amp;s=1029c080a179f45b6d83a51ed79dfd57997ae266",
+            "width": 64,
+            "height": 64
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_q0gj4/zkc9cw88c8361_ChristmasHelpful.png?width=128&amp;height=128&amp;auto=webp&amp;s=50e7f8a870f79df7bc38bedb8a12e01137df5a77",
+            "width": 128,
+            "height": 128
+          }
+        ],
+        "icon_format": "APNG",
+        "icon_height": 2048,
+        "penny_price": null,
+        "award_type": "global",
+        "static_icon_url": "https://i.redd.it/award_images/t5_q0gj4/zkc9cw88c8361_ChristmasHelpful.png"
+      },
+      {
+        "giver_coin_reward": null,
+        "subreddit_id": null,
+        "is_new": false,
+        "days_of_drip_extension": 0,
+        "coin_price": 100,
+        "id": "gid_1",
+        "penny_donate": null,
+        "award_sub_type": "GLOBAL",
+        "coin_reward": 0,
+        "icon_url": "https://www.redditstatic.com/gold/awards/icon/silver_512.png",
+        "days_of_premium": 0,
+        "tiers_by_required_awardings": null,
+        "resized_icons": [
+          {
+            "url": "https://www.redditstatic.com/gold/awards/icon/silver_16.png",
+            "width": 16,
+            "height": 16
+          },
+          {
+            "url": "https://www.redditstatic.com/gold/awards/icon/silver_32.png",
+            "width": 32,
+            "height": 32
+          },
+          {
+            "url": "https://www.redditstatic.com/gold/awards/icon/silver_48.png",
+            "width": 48,
+            "height": 48
+          },
+          {
+            "url": "https://www.redditstatic.com/gold/awards/icon/silver_64.png",
+            "width": 64,
+            "height": 64
+          },
+          {
+            "url": "https://www.redditstatic.com/gold/awards/icon/silver_128.png",
+            "width": 128,
+            "height": 128
+          }
+        ],
+        "icon_width": 512,
+        "static_icon_width": 512,
+        "start_date": null,
+        "is_enabled": true,
+        "awardings_required_to_grant_benefits": null,
+        "description": "Shows the Silver Award... and that's it.",
+        "end_date": null,
+        "subreddit_coin_reward": 0,
+        "count": 6,
+        "static_icon_height": 512,
+        "name": "Silver",
+        "resized_static_icons": [
+          {
+            "url": "https://www.redditstatic.com/gold/awards/icon/silver_16.png",
+            "width": 16,
+            "height": 16
+          },
+          {
+            "url": "https://www.redditstatic.com/gold/awards/icon/silver_32.png",
+            "width": 32,
+            "height": 32
+          },
+          {
+            "url": "https://www.redditstatic.com/gold/awards/icon/silver_48.png",
+            "width": 48,
+            "height": 48
+          },
+          {
+            "url": "https://www.redditstatic.com/gold/awards/icon/silver_64.png",
+            "width": 64,
+            "height": 64
+          },
+          {
+            "url": "https://www.redditstatic.com/gold/awards/icon/silver_128.png",
+            "width": 128,
+            "height": 128
+          }
+        ],
+        "icon_format": null,
+        "icon_height": 512,
+        "penny_price": null,
+        "award_type": "global",
+        "static_icon_url": "https://www.redditstatic.com/gold/awards/icon/silver_512.png"
+      },
+      {
+        "giver_coin_reward": null,
+        "subreddit_id": null,
+        "is_new": false,
+        "days_of_drip_extension": 0,
+        "coin_price": 500,
+        "id": "gid_2",
+        "penny_donate": null,
+        "award_sub_type": "GLOBAL",
+        "coin_reward": 100,
+        "icon_url": "https://www.redditstatic.com/gold/awards/icon/gold_512.png",
+        "days_of_premium": 7,
+        "tiers_by_required_awardings": null,
+        "resized_icons": [
+          {
+            "url": "https://www.redditstatic.com/gold/awards/icon/gold_16.png",
+            "width": 16,
+            "height": 16
+          },
+          {
+            "url": "https://www.redditstatic.com/gold/awards/icon/gold_32.png",
+            "width": 32,
+            "height": 32
+          },
+          {
+            "url": "https://www.redditstatic.com/gold/awards/icon/gold_48.png",
+            "width": 48,
+            "height": 48
+          },
+          {
+            "url": "https://www.redditstatic.com/gold/awards/icon/gold_64.png",
+            "width": 64,
+            "height": 64
+          },
+          {
+            "url": "https://www.redditstatic.com/gold/awards/icon/gold_128.png",
+            "width": 128,
+            "height": 128
+          }
+        ],
+        "icon_width": 512,
+        "static_icon_width": 512,
+        "start_date": null,
+        "is_enabled": true,
+        "awardings_required_to_grant_benefits": null,
+        "description": "Gives 100 Reddit Coins and a week of r/lounge access and ad-free browsing.",
+        "end_date": null,
+        "subreddit_coin_reward": 0,
+        "count": 1,
+        "static_icon_height": 512,
+        "name": "Gold",
+        "resized_static_icons": [
+          {
+            "url": "https://www.redditstatic.com/gold/awards/icon/gold_16.png",
+            "width": 16,
+            "height": 16
+          },
+          {
+            "url": "https://www.redditstatic.com/gold/awards/icon/gold_32.png",
+            "width": 32,
+            "height": 32
+          },
+          {
+            "url": "https://www.redditstatic.com/gold/awards/icon/gold_48.png",
+            "width": 48,
+            "height": 48
+          },
+          {
+            "url": "https://www.redditstatic.com/gold/awards/icon/gold_64.png",
+            "width": 64,
+            "height": 64
+          },
+          {
+            "url": "https://www.redditstatic.com/gold/awards/icon/gold_128.png",
+            "width": 128,
+            "height": 128
+          }
+        ],
+        "icon_format": null,
+        "icon_height": 512,
+        "penny_price": null,
+        "award_type": "global",
+        "static_icon_url": "https://www.redditstatic.com/gold/awards/icon/gold_512.png"
+      },
+      {
+        "giver_coin_reward": null,
+        "subreddit_id": null,
+        "is_new": false,
+        "days_of_drip_extension": 0,
+        "coin_price": 150,
+        "id": "award_f44611f1-b89e-46dc-97fe-892280b13b82",
+        "penny_donate": null,
+        "award_sub_type": "GLOBAL",
+        "coin_reward": 0,
+        "icon_url": "https://i.redd.it/award_images/t5_22cerq/klvxk1wggfd41_Helpful.png",
+        "days_of_premium": 0,
+        "tiers_by_required_awardings": null,
+        "resized_icons": [
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/klvxk1wggfd41_Helpful.png?width=16&amp;height=16&amp;auto=webp&amp;s=a5662dfbdb402bf67866c050aa76c31c147c2f45",
+            "width": 16,
+            "height": 16
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/klvxk1wggfd41_Helpful.png?width=32&amp;height=32&amp;auto=webp&amp;s=a6882eb3f380e8e88009789f4d0072e17b8c59f1",
+            "width": 32,
+            "height": 32
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/klvxk1wggfd41_Helpful.png?width=48&amp;height=48&amp;auto=webp&amp;s=e50064b090879e8a0b55e433f6ee61d5cb5fbe1d",
+            "width": 48,
+            "height": 48
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/klvxk1wggfd41_Helpful.png?width=64&amp;height=64&amp;auto=webp&amp;s=8e5bb2e76683cb6b161830bcdd9642049d6adc11",
+            "width": 64,
+            "height": 64
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/klvxk1wggfd41_Helpful.png?width=128&amp;height=128&amp;auto=webp&amp;s=eda4a9246f95f42ee6940cc0ec65306fd20de878",
+            "width": 128,
+            "height": 128
+          }
+        ],
+        "icon_width": 2048,
+        "static_icon_width": 2048,
+        "start_date": null,
+        "is_enabled": true,
+        "awardings_required_to_grant_benefits": null,
+        "description": "Thank you stranger. Shows the award.",
+        "end_date": null,
+        "subreddit_coin_reward": 0,
+        "count": 15,
+        "static_icon_height": 2048,
+        "name": "Helpful",
+        "resized_static_icons": [
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/klvxk1wggfd41_Helpful.png?width=16&amp;height=16&amp;auto=webp&amp;s=a5662dfbdb402bf67866c050aa76c31c147c2f45",
+            "width": 16,
+            "height": 16
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/klvxk1wggfd41_Helpful.png?width=32&amp;height=32&amp;auto=webp&amp;s=a6882eb3f380e8e88009789f4d0072e17b8c59f1",
+            "width": 32,
+            "height": 32
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/klvxk1wggfd41_Helpful.png?width=48&amp;height=48&amp;auto=webp&amp;s=e50064b090879e8a0b55e433f6ee61d5cb5fbe1d",
+            "width": 48,
+            "height": 48
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/klvxk1wggfd41_Helpful.png?width=64&amp;height=64&amp;auto=webp&amp;s=8e5bb2e76683cb6b161830bcdd9642049d6adc11",
+            "width": 64,
+            "height": 64
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/klvxk1wggfd41_Helpful.png?width=128&amp;height=128&amp;auto=webp&amp;s=eda4a9246f95f42ee6940cc0ec65306fd20de878",
+            "width": 128,
+            "height": 128
+          }
+        ],
+        "icon_format": null,
+        "icon_height": 2048,
+        "penny_price": null,
+        "award_type": "global",
+        "static_icon_url": "https://i.redd.it/award_images/t5_22cerq/klvxk1wggfd41_Helpful.png"
+      },
+      {
+        "giver_coin_reward": null,
+        "subreddit_id": null,
+        "is_new": false,
+        "days_of_drip_extension": 0,
+        "coin_price": 125,
+        "id": "award_5f123e3d-4f48-42f4-9c11-e98b566d5897",
+        "penny_donate": null,
+        "award_sub_type": "GLOBAL",
+        "coin_reward": 0,
+        "icon_url": "https://i.redd.it/award_images/t5_22cerq/5izbv4fn0md41_Wholesome.png",
+        "days_of_premium": 0,
+        "tiers_by_required_awardings": null,
+        "resized_icons": [
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/5izbv4fn0md41_Wholesome.png?width=16&amp;height=16&amp;auto=webp&amp;s=92932f465d58e4c16b12b6eac4ca07d27e3d11c0",
+            "width": 16,
+            "height": 16
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/5izbv4fn0md41_Wholesome.png?width=32&amp;height=32&amp;auto=webp&amp;s=d11484a208d68a318bf9d4fcf371171a1cb6a7ef",
+            "width": 32,
+            "height": 32
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/5izbv4fn0md41_Wholesome.png?width=48&amp;height=48&amp;auto=webp&amp;s=febdf28b6f39f7da7eb1365325b85e0bb49a9f63",
+            "width": 48,
+            "height": 48
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/5izbv4fn0md41_Wholesome.png?width=64&amp;height=64&amp;auto=webp&amp;s=b4406a2d88bf86fa3dc8a45aacf7e0c7bdccc4fb",
+            "width": 64,
+            "height": 64
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/5izbv4fn0md41_Wholesome.png?width=128&amp;height=128&amp;auto=webp&amp;s=19555b13e3e196b62eeb9160d1ac1d1b372dcb0b",
+            "width": 128,
+            "height": 128
+          }
+        ],
+        "icon_width": 2048,
+        "static_icon_width": 2048,
+        "start_date": null,
+        "is_enabled": true,
+        "awardings_required_to_grant_benefits": null,
+        "description": "When you come across a feel-good thing.",
+        "end_date": null,
+        "subreddit_coin_reward": 0,
+        "count": 5,
+        "static_icon_height": 2048,
+        "name": "Wholesome",
+        "resized_static_icons": [
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/5izbv4fn0md41_Wholesome.png?width=16&amp;height=16&amp;auto=webp&amp;s=92932f465d58e4c16b12b6eac4ca07d27e3d11c0",
+            "width": 16,
+            "height": 16
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/5izbv4fn0md41_Wholesome.png?width=32&amp;height=32&amp;auto=webp&amp;s=d11484a208d68a318bf9d4fcf371171a1cb6a7ef",
+            "width": 32,
+            "height": 32
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/5izbv4fn0md41_Wholesome.png?width=48&amp;height=48&amp;auto=webp&amp;s=febdf28b6f39f7da7eb1365325b85e0bb49a9f63",
+            "width": 48,
+            "height": 48
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/5izbv4fn0md41_Wholesome.png?width=64&amp;height=64&amp;auto=webp&amp;s=b4406a2d88bf86fa3dc8a45aacf7e0c7bdccc4fb",
+            "width": 64,
+            "height": 64
+          },
+          {
+            "url": "https://preview.redd.it/award_images/t5_22cerq/5izbv4fn0md41_Wholesome.png?width=128&amp;height=128&amp;auto=webp&amp;s=19555b13e3e196b62eeb9160d1ac1d1b372dcb0b",
+            "width": 128,
+            "height": 128
+          }
+        ],
+        "icon_format": null,
+        "icon_height": 2048,
+        "penny_price": null,
+        "award_type": "global",
+        "static_icon_url": "https://i.redd.it/award_images/t5_22cerq/5izbv4fn0md41_Wholesome.png"
+      }
+    ],
+    "awarders": [],
+    "media_only": false,
+    "can_gild": false,
+    "spoiler": false,
+    "locked": false,
+    "author_flair_text": null,
+    "treatment_tags": [],
+    "visited": false,
+    "removed_by": null,
+    "num_reports": null,
+    "distinguished": null,
+    "subreddit_id": "t5_2r2jt",
+    "author_is_blocked": false,
+    "mod_reason_by": null,
+    "removal_reason": null,
+    "link_flair_background_color": "",
+    "id": "shim3y",
+    "is_robot_indexable": true,
+    "report_reasons": null,
+    "author": "kinoko_noyama",
+    "discussion_type": null,
+    "num_comments": 418,
+    "send_replies": true,
+    "whitelist_status": "all_ads",
+    "contest_mode": false,
+    "mod_reports": [],
+    "author_patreon_flair": false,
+    "author_flair_text_color": null,
+    "permalink": "/r/TwoXChromosomes/comments/shim3y/a_creepy_man_was_following_me_and_i_used_a_tip_i/",
+    "parent_whitelist_status": "all_ads",
+    "stickied": false,
+    "url": "https://www.reddit.com/r/TwoXChromosomes/comments/shim3y/a_creepy_man_was_following_me_and_i_used_a_tip_i/",
+    "subreddit_subscribers": 13266295,
+    "created_utc": 1643679830.0,
+    "num_crossposts": 0,
+    "media": null,
+    "is_video": false
+  }
+}
