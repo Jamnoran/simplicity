@@ -14,11 +14,18 @@
     <color name="post_comment_counter">#FF838383</color>
     <color name="post_vote_counter">#FF838383</color>
 
+    <!--                BACKGROUNDS                -->
     <color name="primary_background">#F2353434</color>
+    <color name="secondary_background">#F2292929</color>
     <color name="primary_tint_color">#FF838383</color>
-    <color name="primary_text_color">#FF838383</color>
-    <color name="secondary_text_color">#FF000000</color>
 
+    <!--                TEXT                -->
+    <color name="primary_text_color">#B5B5B5</color>
+    <color name="secondary_text_color">#FF000000</color>
+    <color name="highlight_text_color">#FF018786</color>
+
+
+    <!--                COLORS                -->
     <color name="white_alpha">#92FFFFFF</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>

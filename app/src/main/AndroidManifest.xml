@@ -13,6 +13,12 @@
         android:theme="@style/Theme.SimplicityAClientForReddit.NoActionBar"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.main.fragments.user.UserDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.main.fragments.search.SearchActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
@@ -26,7 +32,7 @@
         </activity>
         <activity android:name=".ui.main.fragments.webview.WebViewActivity" />
         <activity
-            android:name=".redirects.RedirectActivity"
+            android:name="com.simplicity.simplicityaclientforreddit.base.redirects.RedirectActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -42,10 +48,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".redirects.SingleFragmentActivity"
+            android:name="com.simplicity.simplicityaclientforreddit.base.SingleFragmentActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_single_fragment"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.SimplicityAClientForReddit.NoActionBar.NoActionBar" />
     </application>
 

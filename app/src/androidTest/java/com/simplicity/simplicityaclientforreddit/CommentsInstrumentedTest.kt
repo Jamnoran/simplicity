@@ -3,16 +3,10 @@ package com.simplicity.simplicityaclientforreddit
 import android.util.Log
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.simplicity.simplicityaclientforreddit.ui.main.io.retrofit.APIAuthenticatedInterface
 import com.simplicity.simplicityaclientforreddit.ui.main.io.retrofit.APIInterface
 import com.simplicity.simplicityaclientforreddit.ui.main.io.retrofit.RetrofitClientInstance
 import com.simplicity.simplicityaclientforreddit.ui.main.io.retrofit.serializers.CommentSerializer
-import com.simplicity.simplicityaclientforreddit.ui.main.models.external.AccessToken
-import com.simplicity.simplicityaclientforreddit.ui.main.models.external.responses.JsonResponse
 import com.simplicity.simplicityaclientforreddit.ui.main.models.external.responses.comments.CommentResponse
-import com.simplicity.simplicityaclientforreddit.ui.main.models.external.user.User
-import com.simplicity.simplicityaclientforreddit.ui.main.usecases.GetAccessTokenAuthenticationUseCase
-import com.simplicity.simplicityaclientforreddit.ui.main.usecases.GetRefreshTokenBodyUseCase
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith

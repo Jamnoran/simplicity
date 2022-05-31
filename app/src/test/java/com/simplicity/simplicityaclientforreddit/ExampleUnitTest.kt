@@ -20,4 +20,5 @@ class ExampleUnitTest {
         val url = "https://v.redd.it/rv9jnqqoryp81/DASH_1080.mp4?source=fallback"
         assertEquals("https://v.redd.it/rv9jnqqoryp81/DASH_audio.mp4?source=fallback", VideoHelper.getAudioUrl(url))
     }
+
 }

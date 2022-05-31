@@ -1,5 +1,6 @@
 package com.simplicity.simplicityaclientforreddit.ui.main.fragments.list.adapter.customViews
 
+import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.View
 import android.widget.TextView
@@ -8,13 +9,14 @@ import com.simplicity.simplicityaclientforreddit.ui.main.fragments.list.adapter.
 import com.simplicity.simplicityaclientforreddit.ui.main.fragments.list.adapter.customViews.mediaTypes.MediaTypeImage
 import com.simplicity.simplicityaclientforreddit.ui.main.fragments.list.adapter.customViews.mediaTypes.MediaTypeLink
 import com.simplicity.simplicityaclientforreddit.ui.main.fragments.list.adapter.customViews.mediaTypes.MediaTypeVideo
-import com.simplicity.simplicityaclientforreddit.ui.main.models.external.RedditPost
+import com.simplicity.simplicityaclientforreddit.ui.main.listeners.RedditPostListener
+import com.simplicity.simplicityaclientforreddit.ui.main.models.external.posts.RedditPost
 import com.simplicity.simplicityaclientforreddit.ui.main.models.internal.enums.PostType
-import com.simplicity.simplicityaclientforreddit.ui.main.usecases.GetFormattedTextUseCase
+import com.simplicity.simplicityaclientforreddit.ui.main.usecases.text.GetFormattedTextUseCase
 import com.simplicity.simplicityaclientforreddit.ui.main.usecases.GetPostTypeUseCase
 
 
-class RedditMedia(val width: Int, val post: RedditPost) {
+class RedditMedia(val post: RedditPost, val listener: RedditPostListener) {
     lateinit var binding : RedditPostBinding
 
     fun init(postBinding: RedditPostBinding) {
@@ -53,7 +55,10 @@ class RedditMedia(val width: Int, val post: RedditPost) {
 
             data.selftext?.let{
                 binding.redditMedia.redditDescriptionLayout.redditTextContent.visibility = View.VISIBLE
-                binding.redditMedia.redditDescriptionLayout.redditTextContent.setText(GetFormattedTextUseCase().execute(it), TextView.BufferType.SPANNABLE)
+
+                binding.redditMedia.redditDescriptionLayout.redditTextContent.movementMethod = LinkMovementMethod.getInstance()
+                binding.redditMedia.redditDescriptionLayout.redditTextContent.setText(
+                    GetFormattedTextUseCase(listener).execute(it), TextView.BufferType.SPANNABLE)
             }
         }
     }
@@ -81,5 +86,7 @@ class RedditMedia(val width: Int, val post: RedditPost) {
         // Video
         binding.redditMedia.redditCustomPlayer.customPlayer.visibility = View.GONE
         binding.redditMedia.redditCustomPlayer.customPlayerControllers.visibility = View.GONE
+
+        binding.redditMedia.redditVideoPlayer.redditVideoPlayerLayout.visibility = View.GONE
     }
 }

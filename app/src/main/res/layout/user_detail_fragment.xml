@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/user_detail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_background"
+    tools:context=".ui.main.fragments.user.UserDetailActivity">
+
+    <include layout="@layout/user_detail_section"
+        android:id="@+id/user_detail_section"/>
+
+    <com.simplicity.simplicityaclientforreddit.ui.main.fragments.list.VideoPlayerRecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_detail_section" />
+
+    <Button
+        android:id="@+id/scroll_to_next"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="#00FFFFFF"
+        android:textColor="#00FFFFFF"
+        tools:visibility="visible" />
+
+    <ProgressBar
+        android:id="@+id/loading_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/recycler_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

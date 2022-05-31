@@ -65,8 +65,7 @@ public class RetrofitClientInstance {
             if (useLogging) {
                 httpClient.addInterceptor(logging);
             }
-            String accessToken = "26021619-7ojeMC8WhCiu06ZeMkAgb80rcs9nAA";
-//            String accessToken = new SettingsSP().loadSetting(SettingsSP.KEY_ACCESS_TOKEN, "");
+            String accessToken = new SettingsSP().loadSetting(SettingsSP.KEY_ACCESS_TOKEN, "");
             if(!accessToken.isEmpty()) {
                 httpClient.addInterceptor(chain -> {
                         Request request = chain.request().newBuilder().addHeader("Authorization", "bearer " + accessToken).build();

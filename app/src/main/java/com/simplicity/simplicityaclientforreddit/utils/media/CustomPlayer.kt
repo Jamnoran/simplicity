@@ -13,9 +13,9 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.simplicity.simplicityaclientforreddit.R
 import com.simplicity.simplicityaclientforreddit.databinding.MediaCustomPlayerBinding
-import com.simplicity.simplicityaclientforreddit.ui.main.models.external.RedditPost
-import com.simplicity.simplicityaclientforreddit.ui.main.usecases.GetMediaHeightUseCase
-import com.simplicity.simplicityaclientforreddit.ui.main.usecases.MediaBaseValues
+import com.simplicity.simplicityaclientforreddit.ui.main.models.external.posts.RedditPost
+import com.simplicity.simplicityaclientforreddit.ui.main.usecases.GetMediaBaseValuesUseCase
+import com.simplicity.simplicityaclientforreddit.ui.main.usecases.GetMediaDataUseCase
 import com.simplicity.simplicityaclientforreddit.ui.main.usecases.MediaData
 import java.io.IOException
 
@@ -24,8 +24,9 @@ class CustomPlayer(var binding: MediaCustomPlayerBinding, var data: RedditPost.D
     private val TAG = "CustomPlayer"
     private lateinit var videoMediaPlayer: MediaPlayer
     private var audioMediaPlayer: MediaPlayer? = null
-    private var videoUrl: String? = null
-    private lateinit var audioUrl: String
+    private var mediaData: MediaData? = null
+//    private var videoUrl: String? = null
+//    private lateinit var audioUrl: String
     private var hasAudio: Boolean? = null
     private var muted = false
     private var hasPreparedVideo = false
@@ -43,14 +44,24 @@ class CustomPlayer(var binding: MediaCustomPlayerBinding, var data: RedditPost.D
     }
 
     fun getVideoParams(): ConstraintLayout.LayoutParams{
-        val mediaBaseValues = GetMediaHeightUseCase(data, MediaData(videoUrl?: "", 0.0f, MediaBaseValues(videoWidth, videoHeight))).execute()
-        return ConstraintLayout.LayoutParams(mediaBaseValues.mediaWidth, mediaBaseValues.mediaHeight)
+//        val mediaBaseValues = GetMediaHeightUseCase(data, MediaData(mediaData?.mediaUrl?: "", 0.0f, "", mediaData?.baseValues!!)).execute()
+        mediaData?.let {
+            val mediaBaseValues = GetMediaBaseValuesUseCase(data, it).execute()
+            return ConstraintLayout.LayoutParams(
+                mediaBaseValues.mediaWidth,
+                mediaBaseValues.mediaHeight
+            )
+        }
+        return ConstraintLayout.LayoutParams(
+            0,
+            0
+        )
     }
 
     private fun checkIfVideoHasAudio() {
         val queue = Volley.newRequestQueue(binding.root.context)
         // Request a string response from the provided URL.
-        val stringRequest = StringRequest(Request.Method.GET, audioUrl,
+        val stringRequest = StringRequest(Request.Method.GET, mediaData?.audioUrl,
             {
                 Log.i(TAG, "Volley request success")
                 hasAudio = true
@@ -125,36 +136,12 @@ class CustomPlayer(var binding: MediaCustomPlayerBinding, var data: RedditPost.D
     }
 
     private fun parseUrls() {
-        data.preview?.reddit_video_preview?.fallback_url?.let{
-            videoUrl = it
-            videoHeight = data.preview?.reddit_video_preview?.height!!
-            videoWidth = data.preview?.reddit_video_preview?.width!!
-            Log.i(TAG, "Setting video from reddit_video_preview $videoUrl")
-        }
-        data.media?.reddit_video?.fallback_url?.let{
-            if(videoUrl == null){
-                videoUrl = it
-                videoHeight = data.media?.reddit_video?.height!!
-                videoWidth = data.media?.reddit_video?.width!!
-                Log.i(TAG, "Setting video from reddit_video $videoUrl")
-            }
-        }
-        data.secureMediaEmbed?.media_domain_url?.let{
-            if(videoUrl == null) {
-                videoUrl = it
-                videoHeight = data.secureMediaEmbed?.height!!
-                videoWidth = data.secureMediaEmbed?.width!!
-                Log.i(TAG, "Setting video from secureMediaEmbed $videoUrl")
-            }
-        }
-        videoUrl?.let{
-            audioUrl = VideoHelper.getAudioUrl(it)
-        }
+        mediaData = GetMediaDataUseCase().execute(data)
     }
 
     private fun initVideo() {
         //specify the location of media file
-        val uri = Uri.parse(videoUrl)
+        val uri = Uri.parse(mediaData?.mediaUrl)
 
         //Setting MediaController and URI, then starting the videoView
         binding.customPlayer.setVideoURI(uri)
@@ -190,7 +177,7 @@ class CustomPlayer(var binding: MediaCustomPlayerBinding, var data: RedditPost.D
         // below line is use to set our
         // url to our media player.
         try {
-            audioMediaPlayer?.setDataSource(audioUrl)
+            audioMediaPlayer?.setDataSource(mediaData?.audioUrl)
             // below line is use to prepare
             // and start our media player.
             audioMediaPlayer?.prepare()

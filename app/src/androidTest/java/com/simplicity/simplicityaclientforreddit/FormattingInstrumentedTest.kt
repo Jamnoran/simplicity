@@ -3,22 +3,12 @@ package com.simplicity.simplicityaclientforreddit
 import android.util.Log
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.simplicity.simplicityaclientforreddit.ui.main.io.retrofit.APIAuthenticatedInterface
-import com.simplicity.simplicityaclientforreddit.ui.main.io.retrofit.APIInterface
-import com.simplicity.simplicityaclientforreddit.ui.main.io.retrofit.RetrofitClientInstance
-import com.simplicity.simplicityaclientforreddit.ui.main.models.external.AccessToken
-import com.simplicity.simplicityaclientforreddit.ui.main.models.external.responses.JsonResponse
-import com.simplicity.simplicityaclientforreddit.ui.main.models.external.user.User
-import com.simplicity.simplicityaclientforreddit.ui.main.usecases.GetAccessTokenAuthenticationUseCase
-import com.simplicity.simplicityaclientforreddit.ui.main.usecases.GetFormattedTextUseCase
-import com.simplicity.simplicityaclientforreddit.ui.main.usecases.GetRefreshTokenBodyUseCase
+import com.google.gson.Gson
+import com.simplicity.simplicityaclientforreddit.ui.main.models.external.posts.RedditPost
+import com.simplicity.simplicityaclientforreddit.ui.main.usecases.text.GetFormattedTextUseCase
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.util.concurrent.CountDownLatch
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -48,6 +38,16 @@ class FormattingInstrumentedTest {
     fun testFormatting(){
         val stringToFormat = "Test *italic* **bold** \n#Title \n##Title2\n####Title3\nnew line \n&gt;This is quote \n&#x200B;Edit: Testing a little"
         val result = GetFormattedTextUseCase().execute(stringToFormat)
+        assert(result.contains("&"))
+    }
+
+    @Test
+    fun testFullFormatting(){
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        val json = appContext.resources.openRawResource(R.raw.post_desc).bufferedReader().use { it.readText() }
+        val post = Gson().fromJson(json, RedditPost::class.java)
+        val result = GetFormattedTextUseCase().execute(post.data.selftext!!)
+        Log.i(TAG, "Result->  $result")
         assert(result.contains("&"))
     }
 

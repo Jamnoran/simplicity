@@ -47,6 +47,7 @@ class SettingsSP() {
         const val KEY_DEVICE_WIDTH = "DEVICE_WIDTH"
         const val KEY_MUTE_VIDEOS = "MUTE_VIDEOS"
         const val KEY_PREVIOUS_VISITED_SUBREDDITS = "KEY_PREVIOUS_VISITED_SUBREDDITS"
+        const val KEY_CACHED_POSTS = "KEY_CACHED_POSTS"
         const val KEY_CODE = "CODE"
         const val KEY_STATE = "STATE"
         const val KEY_ACCESS_TOKEN = "ACCESS_TOKEN"

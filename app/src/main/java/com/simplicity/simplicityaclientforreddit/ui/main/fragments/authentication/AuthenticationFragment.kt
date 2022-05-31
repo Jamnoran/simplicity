@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.simplicity.simplicityaclientforreddit.databinding.AuthenticationFragmentBinding
-import com.simplicity.simplicityaclientforreddit.ui.main.fragments.custom.BaseFragment
+import com.simplicity.simplicityaclientforreddit.base.BaseFragment
 import android.content.Intent
 import android.net.Uri
 import android.util.Log

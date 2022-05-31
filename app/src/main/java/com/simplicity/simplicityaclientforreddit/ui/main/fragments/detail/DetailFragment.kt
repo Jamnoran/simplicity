@@ -1,26 +1,29 @@
 package com.simplicity.simplicityaclientforreddit.ui.main.fragments.detail
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.simplicity.simplicityaclientforreddit.R
-import com.simplicity.simplicityaclientforreddit.ui.main.models.external.RedditPost
-import com.simplicity.simplicityaclientforreddit.ui.main.fragments.custom.BaseFragment
-import com.simplicity.simplicityaclientforreddit.ui.main.fragments.list.adapter.customViews.RedditMedia
-import android.content.Intent
-import android.net.Uri
+import com.simplicity.simplicityaclientforreddit.base.BaseActivity
 import com.simplicity.simplicityaclientforreddit.databinding.DetailFragmentBinding
-import android.util.DisplayMetrics
-
-
-
-
+import com.simplicity.simplicityaclientforreddit.base.BaseFragment
+import com.simplicity.simplicityaclientforreddit.base.SingleFragmentActivity
+import com.simplicity.simplicityaclientforreddit.ui.main.fragments.list.adapter.customViews.RedditMedia
+import com.simplicity.simplicityaclientforreddit.ui.main.fragments.list.util.RedditPostListenerImpl
+import com.simplicity.simplicityaclientforreddit.ui.main.models.external.posts.RedditPost
 
 class DetailFragment : BaseFragment() {
+    private val TAG: String = "DetailFragment"
+
     lateinit var binding: DetailFragmentBinding
+
     companion object {
         fun newInstance() = DetailFragment()
     }
@@ -38,15 +41,18 @@ class DetailFragment : BaseFragment() {
         viewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
 
 //        viewModel.parsePost(resources.openRawResource(R.raw.post_raw_video2).bufferedReader().use { it.readText() })
-        viewModel.parsePost(resources.openRawResource(R.raw.post_raw_rich_video).bufferedReader().use { it.readText() })
+//        viewModel.parsePost(resources.openRawResource(R.raw.post_raw_rich_video).bufferedReader().use { it.readText() })
 //        viewModel.parsePost(resources.openRawResource(R.raw.post_hosted_video).bufferedReader().use { it.readText() })
-//        viewModel.parsePost(resources.openRawResource(R.raw.post_desc).bufferedReader().use { it.readText() })
+        viewModel.parsePost(resources.openRawResource(R.raw.post_desc).bufferedReader().use { it.readText() })
         viewModel.post().observe(requireActivity(), {
             observeRedditPost(it)
 //            test(it)
         }
         )
+        viewModel.webViewActivityClicked().observe(requireActivity(),  { observeWebViewActivity(it)})
+//        (activity as BaseActivity).logFirebaseEvent("fragment_detail", TAG, "logged_in_false")
     }
+
 
     private fun test(it: RedditPost) {
 
@@ -79,13 +85,20 @@ class DetailFragment : BaseFragment() {
             val displayMetrics = DisplayMetrics()
             activity?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
             val width = displayMetrics.widthPixels
-            RedditMedia(width, post).init(binding.redditMedia)
+            RedditMedia(post, RedditPostListenerImpl(viewModel)).init(binding.redditMedia)
         }
         if(post.data.postHint != "link"){
             view?.findViewById<TextView>(R.id.reddit_title)?.text = post.data.title
         }else{
             view?.findViewById<TextView>(R.id.reddit_title)?.visibility = View.GONE
         }
+    }
+
+
+    private fun observeWebViewActivity(it: String) {
+        Log.i(TAG, "Starting webview with url $it")
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
+        startActivity(browserIntent)
     }
 
 }

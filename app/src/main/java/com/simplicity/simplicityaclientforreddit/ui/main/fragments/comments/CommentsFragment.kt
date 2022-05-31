@@ -1,7 +1,6 @@
 package com.simplicity.simplicityaclientforreddit.ui.main.fragments.comments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +8,14 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.simplicity.simplicityaclientforreddit.R
+import com.simplicity.simplicityaclientforreddit.base.BaseActivity
 import com.simplicity.simplicityaclientforreddit.databinding.CommentsFragmentBinding
-import com.simplicity.simplicityaclientforreddit.ui.main.fragments.custom.BaseFragment
+import com.simplicity.simplicityaclientforreddit.base.BaseFragment
+import com.simplicity.simplicityaclientforreddit.base.SingleFragmentActivity
+import com.simplicity.simplicityaclientforreddit.ui.main.fragments.list.util.RedditPostListenerImpl
 import com.simplicity.simplicityaclientforreddit.ui.main.models.external.responses.comments.Children
 import com.simplicity.simplicityaclientforreddit.ui.main.models.external.responses.comments.CommentResponse
-import com.simplicity.simplicityaclientforreddit.ui.main.usecases.GetFormattedTextUseCase
+import com.simplicity.simplicityaclientforreddit.ui.main.usecases.text.GetFormattedTextUseCase
 
 class CommentsFragment(var subreddit: String, var postId: String) : BaseFragment() {
     private val TAG: String = "CommentsFragment"
@@ -40,6 +42,7 @@ class CommentsFragment(var subreddit: String, var postId: String) : BaseFragment
             observeComments(it)
         }
         viewModel.loading().observe(requireActivity()) { observeLoading(it) }
+        (activity as BaseActivity).logFirebaseEvent("fragment_comments", TAG, "logged_in_false")
     }
 
     private fun observeLoading(isLoading: Boolean) {
@@ -78,7 +81,7 @@ class CommentsFragment(var subreddit: String, var postId: String) : BaseFragment
             commentLayout.findViewById<TextView>(R.id.comment)?.let { commentBodyView ->
                 it.body?.let { body ->
                     commentBodyView.setText(
-                        GetFormattedTextUseCase().execute(body), TextView.BufferType.SPANNABLE)
+                        GetFormattedTextUseCase(RedditPostListenerImpl(viewModel)).execute(body), TextView.BufferType.SPANNABLE)
                 } ?: run {
                     commentBodyView.text = getString(R.string.comment_deleted)
                 }
@@ -99,11 +102,11 @@ class CommentsFragment(var subreddit: String, var postId: String) : BaseFragment
 
     private fun toggleExpandView(commentLayout: View) {
         commentLayout.findViewById<TextView>(R.id.comment)?.let { commentBodyView ->
-            if(commentBodyView.visibility == View.GONE){
-                commentBodyView.visibility = View.VISIBLE
+            if(commentLayout.findViewById<LinearLayout>(R.id.child_comments).visibility == View.GONE){
+                commentBodyView.maxLines = 2048
                 commentLayout.findViewById<LinearLayout>(R.id.child_comments).visibility = View.VISIBLE
             }else{
-                commentBodyView.visibility = View.GONE
+                commentBodyView.maxLines = 1
                 commentLayout.findViewById<LinearLayout>(R.id.child_comments).visibility = View.GONE
             }
         }

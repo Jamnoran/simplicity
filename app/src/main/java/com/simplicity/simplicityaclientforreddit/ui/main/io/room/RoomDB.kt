@@ -1,9 +1,8 @@
 package com.simplicity.simplicityaclientforreddit.ui.main.io.room
 
-import android.util.Log
 import androidx.room.Room
 import com.simplicity.simplicityaclientforreddit.ui.main.Global.applicationContext
-import com.simplicity.simplicityaclientforreddit.ui.main.models.external.RedditPost
+import com.simplicity.simplicityaclientforreddit.ui.main.models.external.posts.RedditPost
 import com.simplicity.simplicityaclientforreddit.ui.main.models.internal.HiddenSubs
 import com.simplicity.simplicityaclientforreddit.ui.main.models.internal.ReadPost
 

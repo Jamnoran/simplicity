@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.simplicity.simplicityaclientforreddit.R
 import com.simplicity.simplicityaclientforreddit.databinding.RedditPostBinding
 import com.simplicity.simplicityaclientforreddit.ui.main.io.settings.SettingsSP
-import com.simplicity.simplicityaclientforreddit.ui.main.models.external.RedditPost
+import com.simplicity.simplicityaclientforreddit.ui.main.models.external.posts.RedditPost
 import com.simplicity.simplicityaclientforreddit.ui.main.usecases.GetGalleryImageUrlUseCase
 import com.simplicity.simplicityaclientforreddit.ui.main.usecases.MediaBaseValues
 import com.simplicity.simplicityaclientforreddit.ui.main.usecases.MediaData
@@ -43,7 +43,7 @@ open class BaseMediaType(var data: RedditPost.Data, var binding: RedditPostBindi
                 loadGif(it, context, binding.redditMedia.redditImageLayout.redditImage)
             }else{
                 data.preview?.images?.first()?.source?.let{source ->
-                    loadImage(MediaData(it, GetGalleryImageUrlUseCase().getRatio(source.height, source.width), MediaBaseValues(source.height, source.width)), binding.redditMedia.redditImageLayout.redditImage)
+                    loadImage(MediaData(it, GetGalleryImageUrlUseCase().getRatio(source.height, source.width), null,MediaBaseValues(source.height, source.width)), binding.redditMedia.redditImageLayout.redditImage)
                 }
             }
         }

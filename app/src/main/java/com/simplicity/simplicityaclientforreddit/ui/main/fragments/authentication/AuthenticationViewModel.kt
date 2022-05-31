@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.simplicity.simplicityaclientforreddit.ui.main.io.room.RoomDB
-import com.simplicity.simplicityaclientforreddit.ui.main.models.external.RedditPost
+import com.simplicity.simplicityaclientforreddit.ui.main.models.external.posts.RedditPost
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -1,7 +1,7 @@
 package com.simplicity.simplicityaclientforreddit.ui.main.models.external.responses
 
 import com.google.gson.annotations.SerializedName
-import com.simplicity.simplicityaclientforreddit.ui.main.models.external.RedditPost
+import com.simplicity.simplicityaclientforreddit.ui.main.models.external.posts.RedditPost
 
 class FetchPostsResponse(
     @SerializedName("data")
@@ -9,7 +9,7 @@ class FetchPostsResponse(
 ){
     class Data(
         @SerializedName("after")
-        val after: String,
+        val after: String?,
         @SerializedName("dist")
         val dist: Int,
         @SerializedName("children")

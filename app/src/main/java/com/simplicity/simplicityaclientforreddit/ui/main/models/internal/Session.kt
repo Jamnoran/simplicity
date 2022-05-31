@@ -1,6 +1,6 @@
 package com.simplicity.simplicityaclientforreddit.ui.main.models.internal
 
-import com.simplicity.simplicityaclientforreddit.ui.main.models.external.RedditPost
+import com.simplicity.simplicityaclientforreddit.ui.main.models.external.posts.RedditPost
 
 data class Session(
     var id: String,

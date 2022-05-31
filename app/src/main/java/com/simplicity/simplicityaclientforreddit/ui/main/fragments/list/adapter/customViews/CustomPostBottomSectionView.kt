@@ -1,11 +1,10 @@
 package com.simplicity.simplicityaclientforreddit.ui.main.fragments.list.adapter.customViews
 
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import com.simplicity.simplicityaclientforreddit.R
 import com.simplicity.simplicityaclientforreddit.databinding.RedditPostBinding
 import com.simplicity.simplicityaclientforreddit.ui.main.listeners.RedditPostListener
-import com.simplicity.simplicityaclientforreddit.ui.main.models.external.RedditPost
+import com.simplicity.simplicityaclientforreddit.ui.main.models.external.posts.RedditPost
 import java.text.NumberFormat
 
 class CustomPostBottomSectionView(val binding: RedditPostBinding, val  post: RedditPost, var listener: RedditPostListener) {

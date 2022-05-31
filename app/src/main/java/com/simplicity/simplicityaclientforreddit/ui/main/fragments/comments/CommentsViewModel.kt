@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.simplicity.simplicityaclientforreddit.base.BasePostsListViewModel
 import com.simplicity.simplicityaclientforreddit.ui.main.io.retrofit.APIInterface
 import com.simplicity.simplicityaclientforreddit.ui.main.io.retrofit.RetrofitClientInstance
 import com.simplicity.simplicityaclientforreddit.ui.main.io.retrofit.serializers.CommentSerializer
@@ -17,7 +18,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class CommentsViewModel : ViewModel() {
+class CommentsViewModel : BasePostsListViewModel() {
 
     private val TAG: String = "CommentsViewModel"
 

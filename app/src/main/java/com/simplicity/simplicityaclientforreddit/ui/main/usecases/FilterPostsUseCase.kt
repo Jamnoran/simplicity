@@ -2,7 +2,7 @@ package com.simplicity.simplicityaclientforreddit.ui.main.usecases
 
 import com.simplicity.simplicityaclientforreddit.BuildConfig
 import com.simplicity.simplicityaclientforreddit.ui.main.io.room.RoomDB
-import com.simplicity.simplicityaclientforreddit.ui.main.models.external.RedditPost
+import com.simplicity.simplicityaclientforreddit.ui.main.models.external.posts.RedditPost
 
 class FilterPostsUseCase {
     fun canDisplay(redditPost: RedditPost, nsfwSettings: Boolean, sfwSettings: Boolean): Boolean{

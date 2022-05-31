@@ -5,25 +5,35 @@ import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.KeyEvent
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.simplicity.simplicityaclientforreddit.base.BaseFragment
 import com.simplicity.simplicityaclientforreddit.databinding.MainActivityBinding
 import com.simplicity.simplicityaclientforreddit.ui.main.Global
 import com.simplicity.simplicityaclientforreddit.ui.main.fragments.authentication.AuthenticationFragment
-import com.simplicity.simplicityaclientforreddit.ui.main.fragments.custom.BaseFragment
+import com.simplicity.simplicityaclientforreddit.ui.main.fragments.detail.DetailFragment
 import com.simplicity.simplicityaclientforreddit.ui.main.fragments.list.ListFragment
-import com.simplicity.simplicityaclientforreddit.ui.main.fragments.menu.NavigationBar
-import com.simplicity.simplicityaclientforreddit.ui.main.fragments.test.TestFragment
+import com.simplicity.simplicityaclientforreddit.ui.main.fragments.menu.SideMenuBar
 import com.simplicity.simplicityaclientforreddit.ui.main.fragments.webview.WebViewActivity
 import com.simplicity.simplicityaclientforreddit.ui.main.io.settings.SettingsSP
+import com.simplicity.simplicityaclientforreddit.ui.main.usecases.firebase.FireBaseLogUseCase
+import com.simplicity.simplicityaclientforreddit.ui.main.usecases.subreddits.GetSubRedditIntentUseCase
 
 
 class MainActivity : AppCompatActivity() {
+    companion object {
+        const val AUTHENTICATION_DONE = 1001
+        const val KEY_SUBREDDIT = "subreddit"
+    }
     private lateinit var binding: MainActivityBinding
     private lateinit var viewModel: MainViewModel
 
-    var currentFragment: BaseFragment? = null
-    var previousFragment: BaseFragment? = null
+    private var _subreddit: String? = null
+    private var _currentFragment: BaseFragment? = null
+    private var mFirebaseAnalytics: FirebaseAnalytics? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +44,9 @@ class MainActivity : AppCompatActivity() {
         Global.applicationContext = applicationContext
 
         if (savedInstanceState == null) {
+            intent.extras?.let{
+                _subreddit = it.getString(KEY_SUBREDDIT)
+            }
             setUpObservables()
             viewModel.initApplication()
             val displayMetrics = DisplayMetrics()
@@ -47,19 +60,69 @@ class MainActivity : AppCompatActivity() {
 //                }
 //            }
         }
-        setUpNavigationBar()
+        SideMenuBar(this, binding.navigationDrawer).init()
 
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         Log.i("MainActivity", "Refresh token ${SettingsSP().loadSetting(SettingsSP.KEY_REFRESH_TOKEN, "Default")}")
+        mFirebaseAnalytics?.let{ FireBaseLogUseCase(it).execute("app_started","MainActivity", "logged_in_false") }
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        Log.i("MainActivity", "onKeyDown $keyCode $event")
+        return if (keyCode == KeyEvent.KEYCODE_BACK && event.repeatCount == 0) {
+            _currentFragment?.let { it ->
+                if(!it.onKeyDown(keyCode, event) || _subreddit != null){
+                    goBack()
+                }
+            }
+            false
+        } else super.onKeyDown(keyCode, event)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(_currentFragment is AuthenticationFragment){
+            viewModel.resumeWithAuthenticationShowing()
+            goBack()
+        }
+    }
+
+    fun subRedditClicked(subreddit: String) {
+//        AddSubRedditVisitedUseCase(subreddit).execute()
+//        viewModel.fetchListOfVisitedSubReddits()
+//        val intent = Intent(this, MainActivity::class.java)
+//        intent.putExtra(KEY_SUBREDDIT, subreddit)
+//        startActivityWithAnimation(intent)
+
+        startActivityWithAnimation(GetSubRedditIntentUseCase(subreddit, this).execute())
+        viewModel.fetchListOfVisitedSubReddits()
+    }
+
+    fun startActivityWithAnimation(intent: Intent) {
+        startActivity(intent)
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+    }
+
+    fun startWebViewActivity(url: String) {
+        val intent = Intent(this, WebViewActivity::class.java)
+        intent.apply { putExtra("URL", url) }
+        startActivity(intent)
     }
 
     private fun navigateToScreen() {
-        startFragment(ListFragment.newInstance())
-//        startFragment(TestFragment.newInstance())
+        startFragment(ListFragment.newInstance(_subreddit))
 //            startFragment(DetailFragment.newInstance())
 //            startWebViewActivity("https://i.imgur.com/MBtV8jD.gifv")
 //            startWebViewActivity("https://www.redditmedia.com/mediaembed/ptnj5n")
 //            startWebViewActivity("https://i.imgur.com/gK1zKGP.gifv")
 //            startWebViewActivity("http://jamnoran.se/test2.html")
+
+//        val intent = Intent(this, UserDetailActivity::class.java)
+//        intent.putExtra(UserDetailActivity.KEY_USER_NAME, "PantyNectar")
+//        startActivityWithAnimation(intent)
     }
 
     private fun setUpObservables() {
@@ -75,70 +138,21 @@ class MainActivity : AppCompatActivity() {
         SettingsSP().saveSetting(SettingsSP.KEY_REFRESH_TOKEN, it)
     }
 
-    private fun setUpNavigationBar() {
-        NavigationBar(this, binding.navigationDrawer).init()
-    }
-
-    fun startFragment(fragment: BaseFragment){
-        previousFragment = currentFragment
-        currentFragment = fragment
-        currentFragment?.let{
+    private fun startFragment(fragment: BaseFragment){
+        _currentFragment = fragment
+        _currentFragment?.let{
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, it)
                 .commitNow()
         }
     }
 
-    fun startWebViewActivity(url: String) {
-        val intent = Intent(this, WebViewActivity::class.java)
-        intent.apply { putExtra("URL", url) }
-        startActivity(intent)
-    }
-
-    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        Log.i("MainActivity", "onKeyDown $keyCode $event")
-        return if (keyCode == KeyEvent.KEYCODE_BACK && event.repeatCount == 0) {
-            currentFragment?.let { it ->
-                if(!it.onKeyDown(keyCode, event)){
-                    goBack(keyCode, event)
-                }
-            }
-            false
-        } else super.onKeyDown(keyCode, event)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if(currentFragment is AuthenticationFragment){
-            viewModel.resumeWithAuthenticationShowing()
-            goBack()
-        }
-    }
-
     private fun goBack() {
-        previousFragment?.let{ pFrag ->
-            startFragment(pFrag)
-            previousFragment = null
-            return
-        }
         finish()
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
     }
 
-    private fun goBack(keyCode: Int, event: KeyEvent) {
-        previousFragment?.let{ pFrag ->
-            startFragment(pFrag)
-            previousFragment = null
-            return
-        }
-        super.onKeyDown(keyCode, event)
-    }
-
-    fun subRedditClicked(subreddit: String) {
-        startFragment(ListFragment.newInstance())
-    }
-
-
-    companion object {
-        const val AUTHENTICATION_DONE = 1001
+    fun closeDrawer() {
+        findViewById<DrawerLayout>(R.id.drawer_layout).closeDrawers()
     }
 }

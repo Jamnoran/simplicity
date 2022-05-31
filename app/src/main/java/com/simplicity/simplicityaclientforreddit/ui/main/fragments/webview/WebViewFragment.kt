@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import com.simplicity.simplicityaclientforreddit.R
-import com.simplicity.simplicityaclientforreddit.ui.main.fragments.custom.BaseFragment
+import com.simplicity.simplicityaclientforreddit.base.BaseFragment
 import com.simplicity.simplicityaclientforreddit.ui.main.fragments.custom.WebClientClass
 
 

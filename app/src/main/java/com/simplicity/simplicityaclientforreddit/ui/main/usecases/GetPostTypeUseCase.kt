@@ -1,7 +1,6 @@
 package com.simplicity.simplicityaclientforreddit.ui.main.usecases
 
-import android.util.Log
-import com.simplicity.simplicityaclientforreddit.ui.main.models.external.RedditPost
+import com.simplicity.simplicityaclientforreddit.ui.main.models.external.posts.RedditPost
 import com.simplicity.simplicityaclientforreddit.ui.main.models.internal.enums.PostType
 
 

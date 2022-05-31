@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.simplicity.simplicityaclientforreddit.R
 import com.simplicity.simplicityaclientforreddit.ui.main.Global
 import com.simplicity.simplicityaclientforreddit.ui.main.fragments.WebViewFragment
-import com.simplicity.simplicityaclientforreddit.ui.main.fragments.custom.BaseFragment
+import com.simplicity.simplicityaclientforreddit.base.BaseFragment
 
 class WebViewActivity : AppCompatActivity() {
 

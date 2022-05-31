@@ -5,7 +5,7 @@ import android.text.Html
 import android.util.Log
 import android.view.View
 import com.simplicity.simplicityaclientforreddit.databinding.RedditPostBinding
-import com.simplicity.simplicityaclientforreddit.ui.main.models.external.RedditPost
+import com.simplicity.simplicityaclientforreddit.ui.main.models.external.posts.RedditPost
 import com.squareup.picasso.Picasso
 
 class MediaTypeLink(data: RedditPost.Data, binding: RedditPostBinding): BaseMediaType(data, binding) {

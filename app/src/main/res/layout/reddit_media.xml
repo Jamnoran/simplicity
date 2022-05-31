@@ -27,9 +27,13 @@
         android:id="@+id/reddit_link_layout"
         layout="@layout/media_link_layout"/>
     <include
-        tools:visibility="visible"
+        tools:visibility="gone"
         android:id="@+id/reddit_custom_player"
         layout="@layout/media_custom_player"/>
+    <include
+        tools:visibility="visible"
+        android:id="@+id/reddit_video_player"
+        layout="@layout/media_video_player"/>
     <include
         tools:visibility="gone"
         android:id="@+id/gallery_layout"
