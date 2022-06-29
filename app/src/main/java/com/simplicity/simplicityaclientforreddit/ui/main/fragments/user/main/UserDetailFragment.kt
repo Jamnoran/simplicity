@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -35,7 +36,8 @@ class UserDetailFragment() : BaseFragment() {
     private var username: String? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = UserDetailFragmentBinding.inflate(layoutInflater)
@@ -45,14 +47,14 @@ class UserDetailFragment() : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-        savedInstanceState?.getString(USER_KEY)?.let{
+        savedInstanceState?.getString(USER_KEY)?.let {
             username = it
         }
-        this.arguments?.getString(USER_KEY)?.let{
+        this.arguments?.getString(USER_KEY)?.let {
             username = it
         }
 
-        username?.let{
+        username?.let {
             viewModel.setUserName(it)
             viewModel.fetchUser()
             viewModel.fetchPosts()
@@ -61,12 +63,13 @@ class UserDetailFragment() : BaseFragment() {
         viewModel.posts().observe(requireActivity()) { observeRedditPosts(it) }
         viewModel.hideSub().observe(requireActivity()) { observeHideSub() }
         viewModel.openCommentsFragment().observe(requireActivity()) { observeOpenCommentsFragment(it) }
-        viewModel.subRedditClicked().observe(requireActivity()){ observeSubredditClicked(it)}
-        viewModel.authorClicked().observe(requireActivity()){ observeAuthorClicked(it)}
-        viewModel.redditUrlClicked().observe(requireActivity()){ observeRedditLinkClicked(it)}
-        viewModel.webViewActivityClicked().observe(requireActivity()){ observeWebViewActivityClicked(it)}
-        viewModel.browserUrlClicked().observe(requireActivity()){ observeSendToBrowser(it)}
+        viewModel.subRedditClicked().observe(requireActivity()) { observeSubredditClicked(it) }
+        viewModel.authorClicked().observe(requireActivity()) { observeAuthorClicked(it) }
+        viewModel.redditUrlClicked().observe(requireActivity()) { observeRedditLinkClicked(it) }
+        viewModel.webViewActivityClicked().observe(requireActivity()) { observeWebViewActivityClicked(it) }
+        viewModel.browserUrlClicked().observe(requireActivity()) { observeSendToBrowser(it) }
         viewModel.scrollToNextItem().observe(requireActivity()) { observeScrollToNextItem() }
+        viewModel.networkError().observe(requireActivity()) { observeNetworkError() }
 
         initAdapter()
         setUpListeners()
@@ -74,13 +77,19 @@ class UserDetailFragment() : BaseFragment() {
         (activity as BaseActivity).logFirebaseEvent("fragment_user_detail", TAG, "logged_in_false")
     }
 
+    private fun observeNetworkError() {
+        binding.loadingBar.visibility = View.GONE
+        Toast.makeText(requireContext(), getText(R.string.not_logged_in), Toast.LENGTH_LONG).show()
+        requireActivity().finish()
+    }
+
     private fun setUpListeners() {
         binding.userDetailSection.openRedditButton.setOnClickListener {
-            username?.let{
+            username?.let {
                 val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.reddit.com/user/$it/"))
                 startActivity(browserIntent)
             }
-    //        sendToBrowser("https://www.reddit.com/user/$username/")
+            //        sendToBrowser("https://www.reddit.com/user/$username/")
         }
         binding.userDetailSection.root.setOnClickListener {
             toggleProfileVisibility()
@@ -89,13 +98,13 @@ class UserDetailFragment() : BaseFragment() {
 
     private fun toggleProfileVisibility() {
         profileVisibility = !profileVisibility
-        binding.userDetailSection.let{
-            if(profileVisibility){
+        binding.userDetailSection.let {
+            if (profileVisibility) {
                 it.profileBanner.visibility = View.VISIBLE
                 it.userDetail.visibility = View.VISIBLE
                 it.karma.visibility = View.VISIBLE
                 it.profileImage.visibility = View.VISIBLE
-            }else{
+            } else {
                 it.profileBanner.visibility = View.GONE
                 it.userDetail.visibility = View.GONE
                 it.karma.visibility = View.GONE
@@ -107,27 +116,27 @@ class UserDetailFragment() : BaseFragment() {
     private fun observeUser(user: User) {
         Log.i(TAG, "We got user: $user")
         val picasso = Picasso.get()
-        user.subreddit?.iconImg?.let{
-            if(it.isNotEmpty()) {
+        user.subreddit?.iconImg?.let {
+            if (it.isNotEmpty()) {
                 picasso
                     .load(getConvertedImageUrl(it))
                     .into(binding.userDetailSection.profileImage)
             }
         }
-        user.subreddit?.bannerImg?.let{
-            if(it.isNotEmpty()) {
+        user.subreddit?.bannerImg?.let {
+            if (it.isNotEmpty()) {
                 picasso
                     .load(getConvertedImageUrl(it))
                     .into(binding.userDetailSection.profileBanner)
             }
         }
-        user.name?.let{
+        user.name?.let {
             binding.userDetailSection.username.text = it
         }
-        user.totalKarma?.let{
+        user.totalKarma?.let {
             binding.userDetailSection.karma.text = NumberFormat.getInstance().format(it)
         }
-        user.subreddit?.publicDescription?.let{
+        user.subreddit?.publicDescription?.let {
             binding.userDetailSection.userDetail.text = it
         }
     }
@@ -135,7 +144,7 @@ class UserDetailFragment() : BaseFragment() {
     private fun observeRedditPosts(posts: ArrayList<RedditPost>?) {
         redditListAdapter.submitList(posts?.toMutableList())
         binding.recyclerView.set_posts(posts)
-        if(redditListAdapter.itemCount > 0){
+        if (redditListAdapter.itemCount > 0) {
             binding.loadingBar.visibility = View.GONE
             binding.recyclerView.visibility = View.VISIBLE
             binding.recyclerView.smoothScrollBy(0, 1)
@@ -153,7 +162,7 @@ class UserDetailFragment() : BaseFragment() {
         binding.loadingBar.visibility = View.VISIBLE
         binding.recyclerView.visibility = View.INVISIBLE
         redditListAdapter = RedditListAdapter(RedditPostListenerImpl(viewModel))
-        binding.recyclerView.let{ recyclerView ->
+        binding.recyclerView.let { recyclerView ->
             recyclerView.setViewModel(viewModel)
             recyclerView.setRequestManager(_requestManager)
             val layoutManager = LinearLayoutManager(context)
@@ -176,7 +185,7 @@ class UserDetailFragment() : BaseFragment() {
             .setDefaultRequestOptions(options)
     }
 
-    private fun getNextPosition(): Int{
+    private fun getNextPosition(): Int {
         val layoutManger = binding.recyclerView.layoutManager as LinearLayoutManager
         return layoutManger.findFirstVisibleItemPosition() + 1
     }

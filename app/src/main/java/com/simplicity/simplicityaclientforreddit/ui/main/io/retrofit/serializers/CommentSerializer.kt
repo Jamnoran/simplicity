@@ -1,12 +1,10 @@
 package com.simplicity.simplicityaclientforreddit.ui.main.io.retrofit.serializers
 
-import android.util.Log
 import com.google.gson.*
 import com.simplicity.simplicityaclientforreddit.ui.main.models.external.responses.comments.Children
 import com.simplicity.simplicityaclientforreddit.ui.main.models.external.responses.comments.CommentResponse
 import com.simplicity.simplicityaclientforreddit.ui.main.models.external.responses.comments.Replies
 import java.lang.reflect.Type
-import kotlin.Throws
 
 class CommentSerializer : JsonDeserializer<CommentResponse?> {
     private val TAG: String = "CommentSerializer"
@@ -19,13 +17,13 @@ class CommentSerializer : JsonDeserializer<CommentResponse?> {
     ): CommentResponse? {
         var commentResponse = Gson().fromJson(json, CommentResponse::class.java)
         var isComment = false
-        commentResponse.commentResponseData?.children?.get(0)?.let{
-            if(it.kind.equals("t1")){
+        commentResponse.commentResponseData?.children?.get(0)?.let {
+            if (it.kind.equals("t1")) {
 //                Log.i(TAG, "Comment to parse further: $it")
                 isComment = true
             }
         }
-        if(isComment){
+        if (isComment) {
             commentResponse = addRepliesToCommentObject(commentResponse, json)
 
 //            Log.i(TAG, "commentResponse with custom parsed $commentResponse")
@@ -56,12 +54,12 @@ class CommentSerializer : JsonDeserializer<CommentResponse?> {
 
     private fun goThrough(childFromResponse: Children?, child: JsonElement) {
         val childData = child.asJsonObject["data"].asJsonObject
-        var replies : JsonObject? = null
+        var replies: JsonObject? = null
         try {
             replies = childData["replies"].asJsonObject
         } catch (e: Exception) {
         }
-        replies?.let{
+        replies?.let {
 //            Log.i(TAG, "repliesObject: $replies")
             // Found child that has replies.
             val repliesObject = Gson().fromJson(replies, Replies::class.java)
@@ -71,5 +69,4 @@ class CommentSerializer : JsonDeserializer<CommentResponse?> {
             childFromResponse?.childrenData?.repliesCustomParsed = repliesObject
         }
     }
-
 }

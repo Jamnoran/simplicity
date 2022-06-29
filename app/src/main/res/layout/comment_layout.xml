@@ -8,15 +8,14 @@
 
     <TextView
         android:id="@+id/author"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        tools:text="{Author}"
         android:textColor="@color/comment_author"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="{Author}" />
 
     <TextView
         android:id="@+id/comment"
@@ -31,6 +30,34 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/author" />
+
+    <include
+        android:id="@+id/bottomSection"
+        layout="@layout/reddit_post_bottom_section"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/reddit_post_bottom_height"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/comment" />
+
+    <TextView
+        android:id="@+id/comment_posted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        tools:text="{posted}"
+        app:layout_constraintStart_toEndOf="@+id/author"
+        app:layout_constraintTop_toTopOf="@+id/author" />
+
+    <TextView
+        android:id="@+id/comment_op"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/op"
+        android:textColor="@color/flashy_text_color"
+        app:layout_constraintStart_toEndOf="@+id/comment_posted"
+        app:layout_constraintTop_toTopOf="@+id/author" />
 
     <View
         android:id="@+id/comment_line"
@@ -51,5 +78,5 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/comment" />
+        app:layout_constraintTop_toBottomOf="@+id/bottomSection" />
 </androidx.constraintlayout.widget.ConstraintLayout>

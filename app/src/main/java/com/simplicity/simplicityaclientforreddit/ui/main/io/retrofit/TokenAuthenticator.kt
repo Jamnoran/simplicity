@@ -26,7 +26,6 @@ class TokenAuthenticator() : Authenticator {
         }
     }
 
-
 //    override fun authenticate(route: Route?, response: Response): Request? {
 //        return runBlocking {
 //            val service = RetrofitClientInstance.getRetrofitInstance().create(APIInterface::class.java)
@@ -60,25 +59,25 @@ class TokenAuthenticator() : Authenticator {
 //
 //
 //
-////            when (val tokenResponse = getUpdatedToken()) {
-////                is Resource.Success -> {
-////                    SettingsSP().saveSetting(SettingsSP.KEY_ACCESS_TOKEN, tokenResponse.value.access_token)
-////                    SettingsSP().saveSetting(SettingsSP.KEY_REFRESH_TOKEN, tokenResponse.value.refresh_token)
-////                    response.request.newBuilder()
-////                        .header("Authorization", "Bearer ${tokenResponse.value.access_token}")
-////                        .build()
-////                }
-////                else -> null
-////            }
+// //            when (val tokenResponse = getUpdatedToken()) {
+// //                is Resource.Success -> {
+// //                    SettingsSP().saveSetting(SettingsSP.KEY_ACCESS_TOKEN, tokenResponse.value.access_token)
+// //                    SettingsSP().saveSetting(SettingsSP.KEY_REFRESH_TOKEN, tokenResponse.value.refresh_token)
+// //                    response.request.newBuilder()
+// //                        .header("Authorization", "Bearer ${tokenResponse.value.access_token}")
+// //                        .build()
+// //                }
+// //                else -> null
+// //            }
 //        }
 //    }
 
     private fun getNewToken(): String? {
-            val service = RetrofitClientInstance.getRetrofitInstance().create(APIInterface::class.java)
-            val call = service.accessToken(GetAccessTokenAuthenticationUseCase().getAuth(), GetRefreshTokenBodyUseCase().getBody())
+        val service = RetrofitClientInstance.getRetrofitInstance().create(APIInterface::class.java)
+        val call = service.accessToken(GetAccessTokenAuthenticationUseCase().getAuth(), GetRefreshTokenBodyUseCase().getBody())
         val refreshTokenResponse = call.execute().body()
         refreshTokenResponse?.let { response ->
-            response.refreshToken?.let{
+            response.refreshToken?.let {
                 SettingsSP().saveSetting(SettingsSP.KEY_REFRESH_TOKEN, it)
             }
             response.accessToken?.let {

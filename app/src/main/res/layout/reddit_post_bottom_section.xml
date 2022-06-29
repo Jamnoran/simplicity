@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
+    android:layout_height="@dimen/reddit_post_bottom_height"
     android:paddingTop="4dp"
     android:paddingBottom="8dp">
 
@@ -12,6 +12,8 @@
         android:layout_width="32dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
+        app:tint="@color/post_vote_default_color"
+        android:tintMode="multiply"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -22,6 +24,8 @@
         android:layout_width="32dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
+        app:tint="@color/post_vote_default_color"
+        android:tintMode="multiply"
         app:layout_constraintStart_toEndOf="@+id/votes"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/down_arrow_disabled" />
@@ -59,6 +63,7 @@
         android:textColor="@color/primary_text_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
         tools:visibility="gone" />
 
     <ImageView
@@ -70,9 +75,9 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/down_vote_button"
-        android:tint="@color/primary_tint_color"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/stat_notify_chat" />
+        app:srcCompat="@android:drawable/stat_notify_chat"
+        app:tint="@color/primary_tint_color" />
 
     <TextView
         android:id="@+id/hide_sub"
@@ -91,8 +96,8 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:src="@android:drawable/ic_menu_share"
-        android:tint="@color/primary_tint_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/hide_sub"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/primary_tint_color" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,15 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.simplicity.simplicityaclientforreddit.base.BasePostsListViewModel
-import com.simplicity.simplicityaclientforreddit.base.BaseViewModel
 import com.simplicity.simplicityaclientforreddit.ui.main.io.retrofit.APIAuthenticatedInterface
+import com.simplicity.simplicityaclientforreddit.ui.main.io.retrofit.CustomCallback
 import com.simplicity.simplicityaclientforreddit.ui.main.io.retrofit.RetrofitClientInstance
 import com.simplicity.simplicityaclientforreddit.ui.main.models.external.posts.RedditPost
 import com.simplicity.simplicityaclientforreddit.ui.main.models.external.responses.user.User
 import com.simplicity.simplicityaclientforreddit.ui.main.models.external.responses.user.UserResponse
 import com.simplicity.simplicityaclientforreddit.ui.main.models.external.responses.user.posts.UserPostsResponse
-import com.simplicity.simplicityaclientforreddit.ui.main.usecases.FilterPostsUseCase
-import com.simplicity.simplicityaclientforreddit.ui.main.usecases.cachedPosts.AddCachedPostUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -27,55 +25,58 @@ class UserViewModel : BasePostsListViewModel() {
 
     private lateinit var _userName: String
 
-    fun user() : LiveData<User> {
+    fun user(): LiveData<User> {
         return _user
     }
-
-    fun posts() : LiveData<ArrayList<RedditPost>>{
+    fun posts(): LiveData<ArrayList<RedditPost>> {
         return _posts
     }
 
-    fun setUserName(username: String){
+    fun setUserName(username: String) {
         _userName = username
     }
 
     fun fetchUser() {
-        val service = RetrofitClientInstance.getRetrofitAuthenticatedInstance().create(APIAuthenticatedInterface::class.java)
+        val service = RetrofitClientInstance.getRetrofitAuthenticatedInstance()
+            .create(APIAuthenticatedInterface::class.java)
         val call = service.getUser(_userName)
-        call.enqueue(object : Callback<UserResponse> {
-            override fun onResponse(
-                call: Call<UserResponse>,
-                response: Response<UserResponse>
-            ) {
+        call.enqueue(object : CustomCallback<UserResponse> {
+            override fun onSuccess(responseBody: UserResponse) {
                 viewModelScope.launch(Dispatchers.IO) {
-                    response.body()?.data .let { data ->
+                    responseBody.data.let { data ->
                         _user.postValue(data)
                     }
                 }
             }
 
-            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                Log.e(TAG, "Error : ", t)
+            override fun onUnauthorized() {
+                Log.e(TAG, "onUnauthorized")
+                networkError.postValue(Unit)
             }
-        })
+
+            override fun onFailed(throwable: Throwable) {
+                Log.e(TAG, "Error: ", throwable)
+            }
+        }
+        )
     }
 
     override fun fetchPosts() {
         if (isFetching().value == false || isFetching().value == null) {
             // check if we have cached results
             Log.i(TAG, "Preloaded array has a size of ${_preLoadedPosts.size}")
-            if(_preLoadedPosts.isNotEmpty()){
+            if (_preLoadedPosts.isNotEmpty()) {
                 // post those to list
                 addPreloadedToList()
             }
             // Fetch more
-            _cursor?.let{
+            _cursor?.let {
                 fetchUserPosts(it)
             }
         }
     }
 
-    private fun fetchUserPosts(cursor: String){
+    private fun fetchUserPosts(cursor: String) {
         setIsFetching(true)
         val service = RetrofitClientInstance.getRetrofitAuthenticatedInstance().create(APIAuthenticatedInterface::class.java)
         val call = service.getUserPosts(_userName, cursor)
@@ -101,10 +102,10 @@ class UserViewModel : BasePostsListViewModel() {
     }
 
     private fun processFetchedPosts(children: List<RedditPost>) {
-        for(child in children){
+        for (child in children) {
             _preLoadedPosts.add(child)
         }
-        if(_activePosts.size < 8){ // Nothing has been displayed before, show what we have and fetch more.
+        if (_activePosts.size < 8) { // Nothing has been displayed before, show what we have and fetch more.
             addPreloadedToList()
         }
     }

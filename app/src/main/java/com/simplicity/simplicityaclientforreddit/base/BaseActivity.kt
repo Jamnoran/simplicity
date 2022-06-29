@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.simplicity.simplicityaclientforreddit.R
 import com.simplicity.simplicityaclientforreddit.ui.main.usecases.firebase.FireBaseLogUseCase
@@ -18,7 +19,7 @@ open class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         // Obtain the FirebaseAnalytics instance.
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
@@ -35,17 +36,21 @@ open class BaseActivity : AppCompatActivity() {
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
 
-    fun logFirebaseEvent(event: String, tag: String, log: String){
-        mFirebaseAnalytics?.let{ FireBaseLogUseCase(it).execute(event, tag, log) }
+    fun logFirebaseEvent(event: String, tag: String, log: String) {
+        mFirebaseAnalytics?.let { FireBaseLogUseCase(it).execute(event, tag, log) }
     }
 
-    private fun goBack() {
+    fun startFragment(fragment: Fragment){
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, fragment)
+            .commitNow()
+    }
+
+    fun goBack() {
         finish()
-        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
     }
 
     companion object {
-
     }
-
 }

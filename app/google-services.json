@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "871415483642",
+    "project_id": "simplicity-a-client-for-reddit",
+    "storage_bucket": "simplicity-a-client-for-reddit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:871415483642:android:e38d08edd80059f706cd43",
+        "android_client_info": {
+          "package_name": "com.simplicity.simplicityaclientforreddit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "871415483642-stqm9a5jbf19ocfmfv4d0gpkamcaadfj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrU6Fpx9VzWnlKDD_gZlVs35O28baSSS0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "871415483642-stqm9a5jbf19ocfmfv4d0gpkamcaadfj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

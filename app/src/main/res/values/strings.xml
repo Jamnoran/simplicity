@@ -26,6 +26,10 @@
 
     <string name="error_message">Could not fetch posts</string>
     <string name="error_network">Problem with network connection</string>
+    <string name="error_un_authorized">Required to log in to use this feature</string>
     <string name="error_empty">You have seen it all</string>
+    <string name="not_logged_in">You need to be logged in to visit another user</string>
+    <string name="authenticate">Authenticate</string>
+    <string name="op">OP</string>
 
 </resources>

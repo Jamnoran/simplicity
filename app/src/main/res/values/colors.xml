@@ -13,6 +13,9 @@
     <color name="post_vote_de_active_color">#777777</color>
     <color name="post_comment_counter">#FF838383</color>
     <color name="post_vote_counter">#FF838383</color>
+    <color name="post_vote_up_color">#43A810</color>
+    <color name="post_vote_down_color">#BD2020</color>
+    <color name="post_vote_default_color">#FFFFFF</color>
 
     <!--                BACKGROUNDS                -->
     <color name="primary_background">#F2353434</color>
@@ -23,6 +26,7 @@
     <color name="primary_text_color">#B5B5B5</color>
     <color name="secondary_text_color">#FF000000</color>
     <color name="highlight_text_color">#FF018786</color>
+    <color name="flashy_text_color">#2B9E68</color>
 
 
     <!--                COLORS                -->

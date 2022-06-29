@@ -108,7 +108,7 @@ data class ChildrenData (
     @SerializedName("stickied"                      ) var stickied                   : Boolean?                = null,
     @SerializedName("url"                           ) var url                        : String?                 = null,
     @SerializedName("subreddit_subscribers"         ) var subredditSubscribers       : Int?                    = null,
-    @SerializedName("created_utc"                   ) var createdUtc                 : Int?                    = null,
+    @SerializedName("created_utc"                   ) var createdUtc                 : Long?                    = null,
 //    @SerializedName("num_crossposts"                ) var numCrossposts              : Int?                    = null,
 //    @SerializedName("mod_reports"                   ) var modReports                 : ArrayList<String>       = arrayListOf(),
     @SerializedName("is_video"                      ) var isVideo                    : Boolean?                = null

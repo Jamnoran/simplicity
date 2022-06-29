@@ -34,11 +34,10 @@ class APIInstrumentedTest {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.simplicity.simplicityaclientforreddit", appContext.packageName)
-
     }
 
     @Test
-    fun testAuthenticatedRequest(){
+    fun testAuthenticatedRequest() {
         val latch = CountDownLatch(1)
         var user: User? = null
         val service = RetrofitClientInstance.getRetrofitAuthenticatedInstance().create(APIAuthenticatedInterface::class.java)
@@ -48,10 +47,10 @@ class APIInstrumentedTest {
                 call: Call<User>,
                 response: Response<User>
             ) {
-                    response.body().let { data ->
-                        latch.countDown()
-                        user = data
-                    }
+                response.body().let { data ->
+                    latch.countDown()
+                    user = data
+                }
             }
 
             override fun onFailure(call: Call<User>, t: Throwable) {
@@ -61,13 +60,13 @@ class APIInstrumentedTest {
         })
         latch.await()
 
-        user?.let{
+        user?.let {
             assert(it.name == "Jamnoran")
         }
     }
 
     @Test
-    fun testVote(){
+    fun testVote() {
         val latch = CountDownLatch(1)
         val service = RetrofitClientInstance.getRetrofitAuthenticatedInstance().create(APIAuthenticatedInterface::class.java)
         val call = service.upVote("t3_tekys8")
@@ -76,10 +75,10 @@ class APIInstrumentedTest {
                 call: Call<JsonResponse>,
                 response: Response<JsonResponse>
             ) {
-                    response.body().let { data ->
-                        latch.countDown()
-                        Log.i(TAG, "Data $data")
-                    }
+                response.body().let { data ->
+                    latch.countDown()
+                    Log.i(TAG, "Data $data")
+                }
             }
 
             override fun onFailure(call: Call<JsonResponse>, t: Throwable) {
@@ -91,13 +90,13 @@ class APIInstrumentedTest {
     }
 
     @Test
-    fun testRefreshToken(){
+    fun testRefreshToken() {
         val latch = CountDownLatch(1)
 
         val service = RetrofitClientInstance.getRetrofitInstance().create(APIInterface::class.java)
         val call = service.accessToken(GetAccessTokenAuthenticationUseCase().getAuth(), GetRefreshTokenBodyUseCase().getBody())
         call.enqueue(object : Callback<AccessToken> {
-            override fun onResponse(call: Call<AccessToken>, response: Response<AccessToken> ) {
+            override fun onResponse(call: Call<AccessToken>, response: Response<AccessToken>) {
                 response.body().let { data ->
                     latch.countDown()
                     Log.i(TAG, "Data $data")
@@ -112,9 +111,8 @@ class APIInstrumentedTest {
         latch.await()
     }
 
-
     @Test
-    fun testSearch(){
+    fun testSearch() {
         val latch = CountDownLatch(1)
         val service = RetrofitClientInstance.getRetrofitAuthenticatedInstance().create(APIAuthenticatedInterface::class.java)
         val call = service.searchReddits("gonewild")

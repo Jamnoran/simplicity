@@ -64,7 +64,7 @@
 
     <include
         android:id="@+id/bottom_layout"
-        layout="@layout/bottom_post_layout"
+        layout="@layout/reddit_post_bottom_section"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginStart="0dp"

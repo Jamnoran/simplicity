@@ -6,14 +6,12 @@ import android.text.SpannableStringBuilder
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
-import android.util.Log
 import android.view.View
 import androidx.core.text.bold
 import androidx.core.text.italic
 import com.simplicity.simplicityaclientforreddit.ui.main.CustomFormatType
 import com.simplicity.simplicityaclientforreddit.ui.main.FormatIdentifier
 import com.simplicity.simplicityaclientforreddit.ui.main.listeners.RedditPostListener
-
 
 class GetFormattedTextUseCase(val listener: RedditPostListener) {
     fun execute(it: String): SpannableStringBuilder {
@@ -23,7 +21,7 @@ class GetFormattedTextUseCase(val listener: RedditPostListener) {
 //        return main("Link test https://www.google.com/ and another test http://www.google.se \n also some more examples:\n\n/u/Jamonran \n\nu/Jamonran\n\n/r/funny")
     }
 
-    fun main(inputText: String): SpannableStringBuilder{
+    fun main(inputText: String): SpannableStringBuilder {
         val finalResult = SpannableStringBuilder("")
         val replacedText = replaceAllInstances(inputText)
         loopThroughTextAndAdd(finalResult, replacedText)
@@ -41,7 +39,8 @@ class GetFormattedTextUseCase(val listener: RedditPostListener) {
     private fun replaceWithTemporaryRemoveEncapsulated(
         inputText: String,
         oldValue: String,
-        newValue: String): String {
+        newValue: String
+    ): String {
         val specialEncapsulated = "≥ú{Š"
         val encapsulated = inputText.replace("\$newValue", specialEncapsulated)
         val replaceWithNewValue = encapsulated.replace(oldValue, newValue)
@@ -50,17 +49,17 @@ class GetFormattedTextUseCase(val listener: RedditPostListener) {
 
     private fun loopThroughTextAndAdd(finalResult: SpannableStringBuilder, text: String) {
         var positionAtWhereLoopShouldStartAgain = -1
-        for(currentPosition in text.indices){
-            if(positionAtWhereLoopShouldStartAgain == -1 || positionAtWhereLoopShouldStartAgain == currentPosition){
+        for (currentPosition in text.indices) {
+            if (positionAtWhereLoopShouldStartAgain == -1 || positionAtWhereLoopShouldStartAgain == currentPosition) {
                 positionAtWhereLoopShouldStartAgain = -1
                 val positionOfEndTag = checkIfFormatAndReturnPostFixPosition(text.substring(currentPosition, text.length))
                 val format = GetFormatUseCase().execute(text.substring(currentPosition, text.length))
-                if(positionOfEndTag == -1){ // No formatting, just add character
+                if (positionOfEndTag == -1) { // No formatting, just add character
                     finalResult.append(text[currentPosition])
-                } else if(isPrefixFormat(format)){ // Formatting found that is only prefix, add a prefix then continue with rest
-                        positionAtWhereLoopShouldStartAgain = currentPosition + getFormatIdentifierLength(format)
-                        appendPreFix(finalResult, format)
-                } else {// Formatting found, find post-fix and format the text
+                } else if (isPrefixFormat(format)) { // Formatting found that is only prefix, add a prefix then continue with rest
+                    positionAtWhereLoopShouldStartAgain = currentPosition + getFormatIdentifierLength(format)
+                    appendPreFix(finalResult, format)
+                } else { // Formatting found, find post-fix and format the text
                     positionAtWhereLoopShouldStartAgain = currentPosition + positionOfEndTag + getFormatPostFixLength(format)
                     val startPositionAfterPreFix = currentPosition + getFormatIdentifierLength(format)
                     val indexOfEndOfFormattedStringWithoutPostFix = currentPosition + positionOfEndTag
@@ -75,7 +74,7 @@ class GetFormattedTextUseCase(val listener: RedditPostListener) {
     }
 
     private fun isPrefixFormat(format: CustomFormatType): Boolean {
-        if(format == CustomFormatType.EMPTY_PARAGRAPH){
+        if (format == CustomFormatType.EMPTY_PARAGRAPH) {
             return true
         }
         return false
@@ -83,10 +82,10 @@ class GetFormattedTextUseCase(val listener: RedditPostListener) {
 
     private fun appendPreFix(finalResult: SpannableStringBuilder, format: CustomFormatType) {
         when (format) {
-            CustomFormatType.EMPTY_PARAGRAPH ->{
+            CustomFormatType.EMPTY_PARAGRAPH -> {
                 finalResult.append("")
             }
-            CustomFormatType.NEW_SECTION ->{
+            CustomFormatType.NEW_SECTION -> {
                 finalResult.append("\n\n\n")
             }
             else -> { }
@@ -94,7 +93,7 @@ class GetFormattedTextUseCase(val listener: RedditPostListener) {
     }
 
     private fun getFormatIdentifierLength(format: CustomFormatType): Int {
-        return when(format){
+        return when (format) {
             CustomFormatType.NONE -> 0
             CustomFormatType.BOLD -> FormatIdentifier.BOLD.length
             CustomFormatType.ITALIC -> FormatIdentifier.ITALIC.length
@@ -113,7 +112,7 @@ class GetFormattedTextUseCase(val listener: RedditPostListener) {
     }
 
     private fun getFormatPostFixLength(format: CustomFormatType): Int {
-        return when(format){
+        return when (format) {
             CustomFormatType.NONE -> 0
             CustomFormatType.BOLD -> FormatIdentifier.BOLD.length
             CustomFormatType.ITALIC -> FormatIdentifier.ITALIC.length
@@ -135,7 +134,7 @@ class GetFormattedTextUseCase(val listener: RedditPostListener) {
         val format = GetFormatUseCase().execute(subString)
         val preFixLength = getFormatIdentifierLength(format)
         val subStringWithoutPreFix = subString.substring(preFixLength, subString.length)
-        val indexOfPostFix: Int = when(format) {
+        val indexOfPostFix: Int = when (format) {
             CustomFormatType.BOLD -> {
                 getPostFixPosition(subStringWithoutPreFix, arrayOf(FormatIdentifier.BOLD, FormatIdentifier.BOLD_SECONDARY))
             }
@@ -166,13 +165,13 @@ class GetFormattedTextUseCase(val listener: RedditPostListener) {
 
     private fun getPostFixPosition(subStringWithoutPreFix: String, postFixes: Array<String>): Int {
         var positionOfPostFix = -1
-        for(postFix in postFixes){
+        for (postFix in postFixes) {
             val postfixPos = subStringWithoutPreFix.indexOf(postFix)
-            if(positionOfPostFix == -1 || (postfixPos != -1 && postfixPos < positionOfPostFix)){
+            if (positionOfPostFix == -1 || (postfixPos != -1 && postfixPos < positionOfPostFix)) {
                 positionOfPostFix = postfixPos
             }
         }
-        if(positionOfPostFix == -1){
+        if (positionOfPostFix == -1) {
             positionOfPostFix = subStringWithoutPreFix.length
         }
         return positionOfPostFix
@@ -182,21 +181,21 @@ class GetFormattedTextUseCase(val listener: RedditPostListener) {
         finalResult: SpannableStringBuilder,
         format: CustomFormatType,
         substring: String
-    ){
+    ) {
         when (format) {
             CustomFormatType.BOLD -> {
                 getBold(finalResult, substring)
             }
-            CustomFormatType.ITALIC ->{
+            CustomFormatType.ITALIC -> {
                 getItalic(finalResult, substring)
             }
-            CustomFormatType.TITLE_3 ->{
+            CustomFormatType.TITLE_3 -> {
                 getTitle(finalResult, substring, 1.4f)
             }
-            CustomFormatType.TITLE_2 ->{
+            CustomFormatType.TITLE_2 -> {
                 getTitle(finalResult, substring, 1.7f)
             }
-            CustomFormatType.TITLE_1 ->{
+            CustomFormatType.TITLE_1 -> {
                 getTitle(finalResult, substring, 2.2f)
             }
             CustomFormatType.LINK_HTTP,
@@ -204,7 +203,7 @@ class GetFormattedTextUseCase(val listener: RedditPostListener) {
             CustomFormatType.LINK_REDDIT,
             CustomFormatType.LINK_REDDIT_SECONDARY,
             CustomFormatType.LINK_USER,
-            CustomFormatType.LINK_USER_SECONDARY, ->{
+            CustomFormatType.LINK_USER_SECONDARY, -> {
                 getLink(finalResult, substring, format)
             }
             else -> {
@@ -224,7 +223,7 @@ class GetFormattedTextUseCase(val listener: RedditPostListener) {
         val endPos = finalResult.length
         val myClickableSpan: ClickableSpan = object : ClickableSpan() {
             override fun onClick(view: View) {
-                when(format){
+                when (format) {
                     CustomFormatType.LINK_HTTP,
                     CustomFormatType.LINK_HTTPS -> {
                         listener.directLinkClicked(text)
@@ -252,7 +251,7 @@ class GetFormattedTextUseCase(val listener: RedditPostListener) {
         finalResult.bold { append(text) }
     }
 
-    private fun getItalic(finalResult: SpannableStringBuilder, text: String){
+    private fun getItalic(finalResult: SpannableStringBuilder, text: String) {
         finalResult.italic { append(text) }
     }
 
@@ -267,5 +266,4 @@ class GetFormattedTextUseCase(val listener: RedditPostListener) {
         whiteSpannable.setSpan(ForegroundColorSpan(color), 0, text.length, 0)
         return whiteSpannable
     }
-
 }

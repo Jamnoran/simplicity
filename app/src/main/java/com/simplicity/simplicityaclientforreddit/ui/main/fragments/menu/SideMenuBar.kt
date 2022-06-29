@@ -10,8 +10,8 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 import com.simplicity.simplicityaclientforreddit.MainActivity
 import com.simplicity.simplicityaclientforreddit.MainViewModel
 import com.simplicity.simplicityaclientforreddit.R
-import com.simplicity.simplicityaclientforreddit.databinding.NavigationDrawerBinding
 import com.simplicity.simplicityaclientforreddit.base.SingleFragmentActivity
+import com.simplicity.simplicityaclientforreddit.databinding.NavigationDrawerBinding
 import com.simplicity.simplicityaclientforreddit.ui.main.fragments.menu.values.Keys
 import com.simplicity.simplicityaclientforreddit.ui.main.fragments.search.SearchActivity
 import com.simplicity.simplicityaclientforreddit.ui.main.io.settings.SettingsSP
@@ -30,6 +30,11 @@ class SideMenuBar(var activity: MainActivity, var binding: NavigationDrawerBindi
         viewModel.visitedSubReddits().observe(activity) { observeVisitedSubReddits(it) }
     }
 
+    fun update() {
+        setUpAuthentication()
+        viewModel.fetchListOfVisitedSubReddits()
+    }
+
     private fun setUpListeners() {
         setUpSwitch(binding.switchNsfw, SettingsSP().loadSetting(Keys.NSFW, true), Keys.NSFW)
         binding.searchReddits.setOnClickListener {
@@ -46,36 +51,31 @@ class SideMenuBar(var activity: MainActivity, var binding: NavigationDrawerBindi
         }
     }
 
-    private fun observeUser(it: User) {
-        showLoggedIn(it)
+    private fun observeUser(user: User) {
+        binding.authenticateButton.visibility = View.GONE
+        binding.profileSection.profileName.let {
+            it.visibility = View.VISIBLE
+            it.text = user.name
+        }
     }
 
     private fun setUpAuthentication() {
         val accessToken = SettingsSP().loadSetting(SettingsSP.KEY_ACCESS_TOKEN, "")
-        if (accessToken.isEmpty()) {
-            showConnectButton()
+        if (accessToken?.isEmpty() == true) {
+            showAuthenticationButton()
             binding.authenticateButton.setOnClickListener {
                 activity.findViewById<DrawerLayout>(R.id.drawer_layout).closeDrawers()
-//                activity.startFragment(AuthenticationFragment())
                 val intent = Intent(activity, SingleFragmentActivity::class.java).apply {
-                    putExtra(SingleFragmentActivity.KEY_FRAGMENT, SingleFragmentActivity.VALUE_COMMENT)
+                    putExtra(SingleFragmentActivity.KEY_FRAGMENT, SingleFragmentActivity.VALUE_AUTHENTICATION)
                 }
                 activity.startActivityWithAnimation(intent)
             }
         }
     }
 
-    private fun showConnectButton() {
+    private fun showAuthenticationButton() {
         binding.authenticateButton.visibility = View.VISIBLE
-        binding.profileName.visibility = View.GONE
-    }
-
-    private fun showLoggedIn(user: User) {
-        binding.authenticateButton.visibility = View.GONE
-        binding.profileName.let {
-            it.visibility = View.VISIBLE
-            it.text = user.name
-        }
+        binding.profileSection.profileName.visibility = View.GONE
     }
 
     private fun addSubRedditLink(subreddit: String) {
@@ -87,7 +87,7 @@ class SideMenuBar(var activity: MainActivity, var binding: NavigationDrawerBindi
                 activity.closeDrawer()
             }
         }
-        layout.findViewById<Button>(R.id.remove_subreddit)?.let{
+        layout.findViewById<Button>(R.id.remove_subreddit)?.let {
             it.setOnClickListener {
                 viewModel.removeVisitedSubreddit(subreddit)
             }

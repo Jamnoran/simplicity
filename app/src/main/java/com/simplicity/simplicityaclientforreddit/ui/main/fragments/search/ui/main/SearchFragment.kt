@@ -6,15 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.simplicity.simplicityaclientforreddit.R
+import com.simplicity.simplicityaclientforreddit.MainActivity
+import com.simplicity.simplicityaclientforreddit.base.BaseAdapterFragment
+import com.simplicity.simplicityaclientforreddit.base.Mapper
 import com.simplicity.simplicityaclientforreddit.databinding.SearchFragmentBinding
-import com.simplicity.simplicityaclientforreddit.databinding.SearchListSubRedditBinding
 import com.simplicity.simplicityaclientforreddit.ui.main.fragments.search.SearchActivity
 import com.simplicity.simplicityaclientforreddit.ui.main.usecases.subreddits.GetSubRedditIntentUseCase
+import com.simplicity.simplicityaclientforreddit.ui.main.viewholders.mapToTextViewHolderList
 
-class SearchFragment : Fragment() {
+class SearchFragment : BaseAdapterFragment() {
 
     lateinit var binding: SearchFragmentBinding
 
@@ -25,7 +26,7 @@ class SearchFragment : Fragment() {
 
     private lateinit var viewModel: SeachViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = SearchFragmentBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -40,16 +41,12 @@ class SearchFragment : Fragment() {
     }
 
     private fun observeFetching(it: Boolean) {
-        if(it){
-            binding.loading.visibility = View.VISIBLE
-        }else{
-            binding.loading.visibility = View.GONE
-        }
+        if (it) binding.loading.visibility = View.VISIBLE else binding.loading.visibility = View.GONE
     }
 
     private fun setUpListeners() {
         binding.searchTextInputField.addTextChangedListener { text ->
-            Log.i(TAG, "Text is changed to ${text.toString()}")
+            Log.i(TAG, "Text is changed to $text")
             viewModel.searchInputChanged(text.toString())
         }
         binding.nsfwListButton.setOnClickListener {
@@ -59,21 +56,21 @@ class SearchFragment : Fragment() {
 
     private fun observeSubreddits(list: List<String>) {
         Log.i(TAG, "---- First call to observeSubreddits")
-        binding.subRedditsLayout.removeAllViews()
-        for(reddit in list){
-            addSubRedditToView(reddit)
+        val wrappedList = Mapper().mapToTextViewHolderList(list) { subReddit ->
+            subRedditClicked(subReddit)
         }
+        submitList(wrappedList as ArrayList<Any>)
         Log.i(TAG, "---- Added all subreddits")
     }
 
-    private fun addSubRedditToView(subreddit: String) {
-        val subredditLayout = SearchListSubRedditBinding.inflate(layoutInflater)
-        subredditLayout.subReddit.text = getString(R.string.sub_reddit, subreddit)
-        subredditLayout.root.setOnClickListener {
-            viewModel.subRedditClicked(subreddit)
-            (activity as SearchActivity).startActivityWithAnimation(GetSubRedditIntentUseCase(subreddit, requireActivity()).execute())
-        }
-        binding.subRedditsLayout.addView(subredditLayout.root)
+    private fun subRedditClicked(subReddit: String) {
+        Log.i(TAG, "Clicked on subreddit $subReddit")
+        viewModel.subRedditClicked(subReddit)
+        (activity as SearchActivity).startActivityWithAnimation(
+            GetSubRedditIntentUseCase(
+                subReddit,
+                requireActivity()
+            ).execute()
+        )
     }
-
 }

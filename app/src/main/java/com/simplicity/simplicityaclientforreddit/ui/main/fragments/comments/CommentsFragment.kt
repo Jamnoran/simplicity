@@ -9,26 +9,28 @@ import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.simplicity.simplicityaclientforreddit.R
 import com.simplicity.simplicityaclientforreddit.base.BaseActivity
+import com.simplicity.simplicityaclientforreddit.base.BaseAdapterFragment
 import com.simplicity.simplicityaclientforreddit.databinding.CommentsFragmentBinding
-import com.simplicity.simplicityaclientforreddit.base.BaseFragment
-import com.simplicity.simplicityaclientforreddit.base.SingleFragmentActivity
 import com.simplicity.simplicityaclientforreddit.ui.main.fragments.list.util.RedditPostListenerImpl
 import com.simplicity.simplicityaclientforreddit.ui.main.models.external.responses.comments.Children
 import com.simplicity.simplicityaclientforreddit.ui.main.models.external.responses.comments.CommentResponse
 import com.simplicity.simplicityaclientforreddit.ui.main.usecases.text.GetFormattedTextUseCase
 
-class CommentsFragment(var subreddit: String, var postId: String) : BaseFragment() {
+class CommentsFragment(var subreddit: String, var postId: String, var author: String) : BaseAdapterFragment() {
     private val TAG: String = "CommentsFragment"
     lateinit var binding: CommentsFragmentBinding
 
     companion object {
-        fun newInstance(subreddit: String, postId: String) = CommentsFragment(subreddit, postId)
+        fun newInstance(subreddit: String, postId: String, author: String) = CommentsFragment(subreddit, postId, author)
     }
 
     private lateinit var viewModel: CommentsViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = CommentsFragmentBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -41,24 +43,28 @@ class CommentsFragment(var subreddit: String, var postId: String) : BaseFragment
         viewModel.comments().observe(requireActivity()) {
             observeComments(it)
         }
-        viewModel.loading().observe(requireActivity()) { observeLoading(it) }
+        viewModel.isFetching().observe(requireActivity()) { observeLoading(it) }
         (activity as BaseActivity).logFirebaseEvent("fragment_comments", TAG, "logged_in_false")
     }
 
     private fun observeLoading(isLoading: Boolean) {
-        if(isLoading){
+        if (isLoading) {
             binding.loadingBar.visibility = View.VISIBLE
-        }else{
+        } else {
             binding.loadingBar.visibility = View.GONE
         }
     }
 
     private fun observeComments(comments: CommentResponse) {
         comments.commentResponseData?.let {
-            for (child in it.children){
-                addCommentInView(child, binding.commentsList)
-                addDivider(binding.commentsList)
+            val wrappedList = ArrayList<CommentViewHolder>()
+            for (child in it.children) {
+                wrappedList.add(CommentViewHolder(CommentViewData(child), viewModel, author))
+//                addCommentInView(child, binding.commentsList)
+//                addDivider(binding.commentsList)
             }
+
+            submitList(wrappedList as ArrayList<Any>)
         }
     }
 
@@ -81,7 +87,8 @@ class CommentsFragment(var subreddit: String, var postId: String) : BaseFragment
             commentLayout.findViewById<TextView>(R.id.comment)?.let { commentBodyView ->
                 it.body?.let { body ->
                     commentBodyView.setText(
-                        GetFormattedTextUseCase(RedditPostListenerImpl(viewModel)).execute(body), TextView.BufferType.SPANNABLE)
+                        GetFormattedTextUseCase(RedditPostListenerImpl(viewModel)).execute(body), TextView.BufferType.SPANNABLE
+                    )
                 } ?: run {
                     commentBodyView.text = getString(R.string.comment_deleted)
                 }
@@ -95,17 +102,18 @@ class CommentsFragment(var subreddit: String, var postId: String) : BaseFragment
 
             commentLayout.setOnLongClickListener {
                 toggleExpandView(commentLayout)
-                true }
+                true
+            }
             parentView.addView(commentLayout)
         }
     }
 
     private fun toggleExpandView(commentLayout: View) {
         commentLayout.findViewById<TextView>(R.id.comment)?.let { commentBodyView ->
-            if(commentLayout.findViewById<LinearLayout>(R.id.child_comments).visibility == View.GONE){
+            if (commentLayout.findViewById<LinearLayout>(R.id.child_comments).visibility == View.GONE) {
                 commentBodyView.maxLines = 2048
                 commentLayout.findViewById<LinearLayout>(R.id.child_comments).visibility = View.VISIBLE
-            }else{
+            } else {
                 commentBodyView.maxLines = 1
                 commentLayout.findViewById<LinearLayout>(R.id.child_comments).visibility = View.GONE
             }

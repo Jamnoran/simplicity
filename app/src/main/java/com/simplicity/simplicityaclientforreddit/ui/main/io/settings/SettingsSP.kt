@@ -3,36 +3,35 @@ package com.simplicity.simplicityaclientforreddit.ui.main.io.settings
 import android.content.SharedPreferences
 import com.simplicity.simplicityaclientforreddit.ui.main.Global
 
-
 class SettingsSP() {
-    fun saveSetting(key: String, value: Boolean){
+    fun saveSetting(key: String, value: Boolean) {
         val editor = getPreferences().edit()
         editor.putBoolean(key, value)
         editor.apply()
     }
 
-    fun saveSetting(key: String, value: String){
+    fun saveSetting(key: String, value: String?) {
         val editor = getPreferences().edit()
         editor.putString(key, value)
         editor.apply()
     }
-    fun saveSetting(key: String, value: Int){
+    fun saveSetting(key: String, value: Int) {
         val editor = getPreferences().edit()
         editor.putInt(key, value)
         editor.apply()
     }
 
-    fun loadSetting(key:String, defaultValue: Boolean): Boolean {
+    fun loadSetting(key: String, defaultValue: Boolean): Boolean {
         val preferences = getPreferences()
         return preferences.getBoolean(key, defaultValue)
     }
 
-    fun loadSetting(key:String, defaultValue: String): String {
+    fun loadSetting(key: String, defaultValue: String?): String? {
         val preferences = getPreferences()
-        return preferences.getString(key, defaultValue)?: defaultValue
+        return preferences.getString(key, defaultValue) ?: defaultValue
     }
 
-    fun loadSetting(key:String, defaultValue: Int): Int {
+    fun loadSetting(key: String, defaultValue: Int): Int {
         val preferences = getPreferences()
         return preferences.getInt(key, defaultValue)
     }

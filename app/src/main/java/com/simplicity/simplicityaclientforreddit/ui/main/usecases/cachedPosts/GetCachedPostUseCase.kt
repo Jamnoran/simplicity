@@ -7,7 +7,7 @@ import com.simplicity.simplicityaclientforreddit.ui.main.models.external.posts.R
 class GetCachedPostUseCase {
     fun execute(): List<RedditPost> {
         val storedValue = SettingsSP().loadSetting(SettingsSP.KEY_CACHED_POSTS, "")
-        return if(storedValue.isNotEmpty()) {
+        return if(storedValue?.isNotEmpty() == true) {
             return Gson().fromJson(storedValue, Array<RedditPost>::class.java).toList()
         }else{
             emptyList()

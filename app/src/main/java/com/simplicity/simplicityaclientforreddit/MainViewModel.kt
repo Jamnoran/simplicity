@@ -11,8 +11,8 @@ import com.simplicity.simplicityaclientforreddit.ui.main.io.retrofit.RetrofitCli
 import com.simplicity.simplicityaclientforreddit.ui.main.io.settings.SettingsSP
 import com.simplicity.simplicityaclientforreddit.ui.main.models.external.AccessToken
 import com.simplicity.simplicityaclientforreddit.ui.main.models.external.responses.user.User
-import com.simplicity.simplicityaclientforreddit.ui.main.usecases.GetAccessTokenBodyUseCase
 import com.simplicity.simplicityaclientforreddit.ui.main.usecases.GetAccessTokenAuthenticationUseCase
+import com.simplicity.simplicityaclientforreddit.ui.main.usecases.GetAccessTokenBodyUseCase
 import com.simplicity.simplicityaclientforreddit.ui.main.usecases.subreddits.GetSubRedditVisitedUseCase
 import com.simplicity.simplicityaclientforreddit.ui.main.usecases.subreddits.RemoveSubRedditVisitedUseCase
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +20,6 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
 
 class MainViewModel : ViewModel() {
 
@@ -34,23 +33,23 @@ class MainViewModel : ViewModel() {
     private val _user = MutableLiveData<User>()
     private val _visitedSubReddits = MutableLiveData<List<String>>()
 
-    fun accessToken(): LiveData<String>{
+    fun accessToken(): LiveData<String> {
         return _accessToken
     }
 
-    fun refreshToken(): LiveData<String>{
+    fun refreshToken(): LiveData<String> {
         return _refreshToken
     }
 
-    fun expiresIn(): LiveData<Int>{
+    fun expiresIn(): LiveData<Int> {
         return _expiresIn
     }
 
-    fun scope(): LiveData<String>{
+    fun scope(): LiveData<String> {
         return _scope
     }
 
-    fun tokenType(): LiveData<String>{
+    fun tokenType(): LiveData<String> {
         return _tokenType
     }
 
@@ -64,7 +63,7 @@ class MainViewModel : ViewModel() {
 
     fun initApplication() {
         val accessToken = SettingsSP().loadSetting(SettingsSP.KEY_ACCESS_TOKEN, "")
-        if (accessToken.isNotEmpty()) {
+        if (accessToken?.isNotEmpty() == true) {
             fetchUser()
         }
     }
@@ -89,10 +88,10 @@ class MainViewModel : ViewModel() {
         })
     }
 
-    fun resumeWithAuthenticationShowing() {
+    fun fetchAuthenticationToken() {
         val code = SettingsSP().loadSetting(SettingsSP.KEY_CODE, "Default")
         Log.i("MainActivity", "Send authentication request to reddit with code: $code")
-        authenticate(code)
+        code?.let{ authenticate(code) }
     }
 
     fun setDeviceInfo(widthPixels: Int, heightPixels: Int) {
@@ -122,11 +121,12 @@ class MainViewModel : ViewModel() {
                 viewModelScope.launch(Dispatchers.IO) {
                     response.body()?.let { data ->
                         Log.i(TAG, "Data in response: $data")
-                        data.accessToken?.let{ _accessToken.postValue(it) }
-                        data.refreshToken?.let{ _refreshToken.postValue(it) }
-                        data.expiresIn?.let{ _expiresIn.postValue(it) }
-                        data.scope?.let{ _scope.postValue(it) }
-                        data.tokenType?.let{ _tokenType.postValue(it) }
+                        data.accessToken?.let { _accessToken.postValue(it) }
+                        data.refreshToken?.let { _refreshToken.postValue(it) }
+                        data.expiresIn?.let { _expiresIn.postValue(it) }
+                        data.scope?.let { _scope.postValue(it) }
+                        data.tokenType?.let { _tokenType.postValue(it) }
+                        SettingsSP().saveSetting(SettingsSP.KEY_CODE, null)
                     }
                 }
             }
@@ -136,5 +136,4 @@ class MainViewModel : ViewModel() {
             }
         })
     }
-
 }

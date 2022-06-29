@@ -10,6 +10,7 @@ import com.simplicity.simplicityaclientforreddit.ui.main.Global
 import com.simplicity.simplicityaclientforreddit.ui.main.io.settings.SettingsSP
 
 class RedirectActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Check to see if this Activity is the root activity
@@ -34,20 +35,25 @@ class RedirectActivity : AppCompatActivity() {
     }
 
     private fun saveData(intent: Intent?) {
-        Log.i("RedirectActivity", "Saving authentication data")
-        intent?.data?.let{
+        Log.i(TAG, "Saving authentication data ${intent?.data}")
+        intent?.data?.let {
             val uri: Uri = it
             if (uri.getQueryParameter("error") != null) {
                 val error: String = uri.getQueryParameter("error")!!
-                Log.e("MainActivity", "An error has occurred : $error")
+                Log.e(TAG, "An error has occurred : $error")
             } else {
                 uri.getQueryParameter("state")?.let { state ->
-                        uri.getQueryParameter("code")?.let { code ->
-                            SettingsSP().saveSetting(SettingsSP.KEY_CODE, code)
-                            SettingsSP().saveSetting(SettingsSP.KEY_STATE, state)
+                    uri.getQueryParameter("code")?.let { code ->
+                        Log.i(TAG, "Stored this code $code and this state $state")
+                        SettingsSP().saveSetting(SettingsSP.KEY_CODE, code)
+                        SettingsSP().saveSetting(SettingsSP.KEY_STATE, state)
                     }
                 }
             }
         }
+    }
+
+    companion object {
+        const val TAG = "RedirectActivity"
     }
 }
